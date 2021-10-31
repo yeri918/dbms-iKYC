@@ -22,6 +22,9 @@ lineType = 2
 while cnt <= NUM_IMGS:
     # Capture frame-by-frame
     ret, frame = video_capture.read()
+    print(ret)
+    if frame==None:
+        print("no")
 
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
@@ -46,7 +49,7 @@ while cnt <= NUM_IMGS:
                 fontColor,
                 lineType)
     """
-    
+
 
     # Display the resulting frame
     cv2.imshow('Video', frame)
