@@ -22,10 +22,9 @@ lineType = 2
 while cnt <= NUM_IMGS:
     # Capture frame-by-frame
     ret, frame = video_capture.read()
-    print(ret)
-    if frame==None:
+    if frame is None:
         print("no")
-
+        break
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
     """
