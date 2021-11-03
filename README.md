@@ -1,4 +1,4 @@
-# dbms-iKYC
+# READ!
 
 1. RUN 'python3 login.py' 
 2. Press 'Log in'
