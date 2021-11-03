@@ -6,6 +6,7 @@
 
 * Write the functions in the corresponding tab file!
 
+<pre>
 iKYC <br />
   |__ data (where training photos are saved) <br />
   |__ FaceRecognition (face recognition code to be used for login) <br />
@@ -15,5 +16,6 @@ iKYC <br />
   login.py (run this file 'python3 login.py') <br />
   main_page.py (where all tabs are grouped together) <br />
   signup.py 
+</pre>
   
   
