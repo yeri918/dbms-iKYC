@@ -6,14 +6,14 @@
 
 * Write the functions in the corresponding tab file!
 
-iKYC
-  |__ data (where training photos are saved)
-  |__ FaceRecognition (face recognition code to be used for login)
-  |__ mysqlQueries (connection, MySQL queries)
-  |__ tabs (Home, Accounts, Transactions, Profile)
+iKYC <br />
+  |__ data (where training photos are saved) <br />
+  |__ FaceRecognition (face recognition code to be used for login) <br />
+  |__ mysqlQueries (connection, MySQL queries) <br />
+  |__ tabs (Home, Accounts, Transactions, Profile) <br />
   
-  login.py (run this file 'python3 login.py')
-  main_page.py (where all tabs are grouped together)
+  login.py (run this file 'python3 login.py') <br />
+  main_page.py (where all tabs are grouped together) <br />
   signup.py 
   
   
