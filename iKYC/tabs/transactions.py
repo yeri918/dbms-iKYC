@@ -1,8 +1,14 @@
 import PySimpleGUI as sg
+import DEFINE
 
-transactionsTab = [[sg.Text('Month', size=(20, 1), font='Lucida', justification='left')],
-                   [sg.Combo(['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN',
-                              'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'], default_value='JAN', key='month')],
+
+def getAccountsList():
+    return ['Account 1', 'Account 2', 'Account 3']
+
+
+transactionsTab = [[sg.Text('Month', size=(5, 1), font=DEFINE.font),
+                    sg.Text('From', size=(10, 1), font='Lucida')],
+                   [sg.Combo(getAccountsList(), key='month')],
                    [sg.Text('Day', size=(30, 1),
                             font='Lucida', justification='left')],
                    [sg.Combo(['New York', 'Chicago', 'Washington', 'Colorado',
