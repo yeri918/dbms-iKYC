@@ -24,7 +24,7 @@ def signup():
         print('event')
         if(event == 'Train'):
             try:
-                face_capture.faceCapture("Julie")
+                face_capture.faceCapture("Yeseo")
             except:
                 sg.Popup("Unable to train your face. Please try again.")
 

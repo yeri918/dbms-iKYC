@@ -1,5 +1,6 @@
 import PySimpleGUI as sg
 import signup
+import main_page
 
 
 Left_Column = [[sg.Text('No account yet?'), sg.Text(' '*10)],
@@ -17,10 +18,21 @@ layout = [[sg.Text('Email : '), sg.InputText(key='in1', do_not_clear=False)],
 
 window = sg.Window('Log In', layout, margins=(20, 40))
 
+# authentication for log in
+authentication = True
+
 while True:
     event, values = window.read()
     if(event == "Sign Up"):
         signup.signup()
+
+    if(event == "Log In"):
+
+        if(authentication):
+            main_page.mainPage()
+        else:
+            sg.Popup("Log in failed.")
+        break
 
     if event == "EXIT" or event == sg.WIN_CLOSED:
         break
