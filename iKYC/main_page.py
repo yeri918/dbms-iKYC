@@ -29,5 +29,6 @@ def mainPage():
             print('pressed')
             transactions.search()
         # window['-OUT-'].update(values['-IN-'])
+        print("Month: ", window['month'])
 
     window.close()
