@@ -16,12 +16,12 @@ class Session:
         layout = [[sg.TabGroup([[sg.Tab('Home', self.getHomeLayout(), title_color='Black', border_width=10, background_color='White',
                                         tooltip='Personal details', element_justification='center'),
                                  sg.Tab('My Accounts', self.getAccountsLayout(), title_color='Black',
-                                        background_color='White'),
-                                 sg.Tab('Transactions', self.getTransactionLayout(), title_color='Black', background_color='White'
-                                        ),
+                                        background_color='White', ),
+                                 sg.Tab('Transactions', self.getTransactionLayout(
+                                 ), title_color='Black', background_color='White'),
                                  sg.Tab('Profile', self.getProfileLayout(), title_color='Black', background_color='White')]], tab_location='centertop',
                                title_color='White', tab_background_color='Black', selected_title_color='White',
-                               selected_background_color='Gray', border_width=5, size=DEFAULT_WINDOW_SIZE), sg.Button('Close')]]
+                               selected_background_color='Gray', border_width=5, size=DEFAULT_WINDOW_SIZE, font=("Helvetica", 15)), sg.Button('Close')]]
         return layout
 
     def getHomeLayout(self):
