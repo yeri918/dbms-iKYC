@@ -74,6 +74,9 @@ def main():
             event, values = win.Read()
             if event is None or event == 'Cancel':
                 break
+            if event == '-search-':
+                print("search pressed")
+                print(values)
 
         win.Close()
         # session.logout()
