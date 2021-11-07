@@ -108,6 +108,11 @@ def main():
                                                     outputCurrency], 2)
                 win['-OUTPUTCURRENCYAMOUNT-'].update(fromUSDToOutputCurrency)
 
+            if event == '-search-':
+                print("TRANSACTION_SEARCH - values for queries")
+                print(values['-account-'], values['-fromAmount-'], values['-toAmount-'],
+                      values['-fromDate-'], values['-fromTime-'],
+                      values['-toDate-'], values['-toTime-'])
         win.Close()
         # session.logout()
 
