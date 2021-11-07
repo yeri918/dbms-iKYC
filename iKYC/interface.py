@@ -2,18 +2,22 @@ from DEFINE import *
 import PySimpleGUI as sg
 from home import homeTabStuff
 from datetime import datetime
+from tabs import accountsPage
 
 
 class Session:
     def __init__(self, conn, userID):
         self.conn = conn
         self.userID = userID
+        # sg.theme('DarkTanBlue')
 
     def getMainWindow(self):
         window = sg.Window(
             "iKYC Main Page", layout=self.getMainLayout(),
             size=DEFAULT_WINDOW_SIZE)
         return window
+
+    ################################## LAYOUTS #########################################
 
     def getMainLayout(self):
         layout = [[sg.TabGroup([[sg.Tab('Home', self.getHomeLayout(),
@@ -96,30 +100,30 @@ class Session:
                          ]
         return myAccountsTab
 
+    # def getTransactionListFrame(self):
+    #     # get the account info from db
+    #     accounts = {1: {'Title': 'Savings', 'amount': 1235, 'currency': 'HKD'}}
+    #     frame_layout = []
+    #     for account in accounts:
+    #         accountInfo = []
+    #         for info in account:
+    #             if info == 'Title':
+    #                 accountInfo.append[titleText(account[info])]
+    #             else:
+    #                 accountInfo.append[subTitleText(
+    #                     info), subTitleText(account[info])]
+    #         frame_layout.append(accountInfo)
+
+    #     frame = sg.Frame('Accounts', frame_layout)
+    #     return frame
+
     def getTransactionLayout(self):
-        transactionsTab = [[sg.Text('Account', size=(8, 1), font=DEFAULT_FONT),
-                            sg.Text('From', size=(10, 1), font=DEFAULT_FONT),
-                            sg.Text('To', size=(10, 1), font=DEFAULT_FONT)],
-                           [sg.Combo(['Account 1', 'Account 2'], size=(10, 5),
-                                     key='account'), sg.Combo(
-                               ['Jan', 'Feb', 'Mar'], size=(3, 1), key='month'),
-                            sg.Combo([1, 2, 3], size=(3, 1), key='day')],
-                           [sg.Text('Month', size=(5, 1), font=DEFAULT_FONT),
-                            sg.Text('From', size=(5, 1), font=DEFAULT_FONT)],
-                           [sg.Text('Day', size=(30, 1),
-                                    font='Lucida', justification='left')],
-                           [sg.Combo(
-                               ['New York', 'Chicago', 'Washington', 'Colorado',
-                                'Ohio', 'San Jose', 'Fresno', 'San Fransisco'],
-                               key='dest')],
-                           [sg.Text('Choose Account Types', size=(
-                               30, 1), font='Lucida', justification='left')],
-                           [sg.Listbox(values=['Saving', 'Current', 'HKD',
-                                               'USD'], select_mode='extended',
-                                       key='fac', size=(30, 4))],
-                           [sg.Button('Search', font=('Lucida', 12),
-                                      key='transaction_search'),
-                            sg.Button('Reset', font=('Lucida', 12))]]
+        transactionsTab = [
+            [subTitleText('Account'), subTitleText(
+                'From'), subTitleText('Min. Amount')],
+            [comboElement(['Account 1', 'Account2'], '-account-'),
+             subTitleText('To'), subTitleText('Max. Amount')],
+            [buttonElement('Search', '-search-')]]
 
         return transactionsTab
 
@@ -132,3 +136,4 @@ class Session:
         #needs to end session and the take back to home screen
 
         return signOut
+    ################################## Get From DB #########################################

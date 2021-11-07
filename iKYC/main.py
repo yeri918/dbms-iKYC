@@ -78,6 +78,9 @@ def main():
 
             if event is None or event == 'Cancel':
                 break
+            if event == '-search-':
+                print("search pressed")
+                print(values)
 
             # event if more details on accounts text clicked, take to
             # accounts tab
