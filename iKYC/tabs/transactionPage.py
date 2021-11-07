@@ -62,21 +62,19 @@ def getSearchTimeFrame():
 
 
 def getTransactionLayout():
-
-    test = [[titleText('Account 1'), subTitleText('subtext')]]
     searchFrame = [sg.Frame('FILTER', [[sg.Frame('', getSearchFrame()), sg.Frame('', getSearchTimeFrame())],
                                        [buttonElement("Search", "-search-", (100, 1))]])]
+
+    table = sg.Table(values=[("Withdrawal", "A123", "10/12/2021 08:20:11", "500HKD", "withdrew 500HKD"),
+                             ("Deposit", "A123", "10/12/2021 08:20:11", "500HKD", "500HKD deposit")],
+                     headings=["Type", "Account No.",
+                               "Time", "Amount", "Description"],
+                     auto_size_columns=False,
+                     col_widths=(9, 9, 17, 8, 25),
+                     justification='left', key='-transactionTable-', size=(1000, 300), font=(DEFAULT_FONT, 15))
+    # col_widths=(10, 10, 10, 10, 20),
     frame = [searchFrame,
-             [titleText("Withdrawal", justify='left', textColor='yellow')],
-             [sg.Frame('Accounts', test)],
-             [sg.Frame('Account 2', [[titleText('Account 2')]])],
-             [titleText("Deposit", justify='left', textColor='yellow')],
-             [sg.Frame('Accounts', [[titleText('Account 2')]])],
-             [sg.Frame('Account 2', [[titleText('Account 2')]])],
-             [titleText("Transfer", justify='left', textColor='yellow')]]
-    # frame = [[sg.Frame('', getSearchFrame()), sg.Frame('', getSearchTimeFrame())],
-    #          [buttonElement("Search", "-search-", (100, 1))],
-    #
+             [titleText("Transactions")], [table]]
+
     transactionsTab = [[sg.Column(frame)]]
-    # print(getTransactionListFrame())
     return transactionsTab

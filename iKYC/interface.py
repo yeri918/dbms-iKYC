@@ -2,7 +2,7 @@ from DEFINE import *
 import PySimpleGUI as sg
 from home import homeTabStuff
 from datetime import datetime
-from tabs import accountsPage
+from tabs import transactionPage
 
 
 class Session:
@@ -30,7 +30,7 @@ class Session:
                                         background_color='White',
                                         key="-ACCOUNTTAB-"),
                                  sg.Tab('Transactions',
-                                        accountsPage.getTransactionLayout(), title_color='Black',
+                                        transactionPage.getTransactionLayout(), title_color='Black',
                                         background_color='White',
                                         key="-TRANSACTIONSTAB-"),
                                  sg.Tab('Profile', self.getProfileLayout(),
