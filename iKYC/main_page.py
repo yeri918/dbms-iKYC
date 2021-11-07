@@ -1,5 +1,6 @@
 import PySimpleGUI as sg
-from tabs import home, myAccounts, transactions, profile
+from tabs import myAccounts, transactions, profile
+from iKYC import home
 
 
 def mainPage():

@@ -1,9 +1,10 @@
 from interface import *
 import PySimpleGUI as sg
+from openexchangerates import OpenExchangeRatesClient
+from decimal import *
 
 
 def main():
-
     # 1 Create database connection
 
     # myconn = db.connect()
@@ -42,10 +43,12 @@ def main():
         [sg.Text('Log In With Face ID',
                  justification='center', font='Helvetica 20')],
         [sg.Image(filename='image/faceidimage.png', key='-faceid-')],
-        [sg.Button(key='-loginFaceID-', button_text='Face ID', size=(10, 1), font='Helvetica 14')]]
+        [sg.Button(key='-loginFaceID-', button_text='Face ID', size=(10, 1),
+                   font='Helvetica 14')]]
 
     # 3 Create the window
-    window = sg.Window('Log In', layout, size=DEFAULT_WINDOW_SIZE, element_padding=None,
+    window = sg.Window('Log In', layout, size=DEFAULT_WINDOW_SIZE,
+                       element_padding=None,
                        margins=(None, None), element_justification='center')
 
     login_Success = False
@@ -72,8 +75,34 @@ def main():
 
         while True:
             event, values = win.Read()
+
             if event is None or event == 'Cancel':
                 break
+
+            # event if more details on accounts text clicked, take to
+            # accounts tab
+            if event == "-MOREDETAILSACCOUNTS-":
+                win.Element("-ACCOUNTTAB-").select()
+
+            # event if more details on transactions text clicked, take to
+            # transactions tab
+            if event == '-MOREDETAILSTRANSACTIONS-':
+                win.Element("-TRANSACTIONSTAB-").select()
+
+            #currency convert button event
+            if event == "Convert":
+                client = OpenExchangeRatesClient(
+                    'b959b3966492436dba1b623fbfee1849')
+                inputCurrencyAmt = values['-INPUTCURRENCYAMOUNT-']
+                inputCurrency = values['-INPUTCURRENCY-']
+                outputCurrency = values['-OUTPUTCURRENCY-']
+
+                fromInputCurrencyToUSD = Decimal(inputCurrencyAmt) / \
+                                         client.latest()["rates"][inputCurrency]
+                fromUSDToOutputCurrency = round(fromInputCurrencyToUSD * \
+                                                client.latest()["rates"][
+                                                    outputCurrency], 2)
+                win['-OUTPUTCURRENCYAMOUNT-'].update(fromUSDToOutputCurrency)
 
         win.Close()
         # session.logout()

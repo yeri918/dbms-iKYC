@@ -18,14 +18,14 @@ def getDayList():
     # dayList.append(31)
 
 
-transactionsTab = [[sg.Text('Account', size=(8, 1), font=DEFINE.font),
-                    sg.Text('From', size=(10, 1), font=DEFINE.font),
-                    sg.Text('To', size=(10, 1), font=DEFINE.font)],
+transactionsTab = [[sg.Text('Account', size=(8, 1), font=DEFINE.DEFAULT_FONT),
+                    sg.Text('From', size=(10, 1), font=DEFINE.DEFAULT_FONT),
+                    sg.Text('To', size=(10, 1), font=DEFINE.DEFAULT_FONT)],
                    [sg.Combo(getAccountsList(), size=(10, 5), key='account'), sg.Combo(
                        getMonthList(), size=(3, 1), key='month'),
                        sg.Combo(getDayList(), size=(3, 1), key='day')],
-                   [sg.Text('Month', size=(5, 1), font=DEFINE.font),
-                    sg.Text('From', size=(5, 1), font=DEFINE.font)],
+                   [sg.Text('Month', size=(5, 1), font=DEFINE.DEFAULT_FONT),
+                    sg.Text('From', size=(5, 1), font=DEFINE.DEFAULT_FONT)],
                    [sg.Text('Day', size=(30, 1),
                             font='Lucida', justification='left')],
                    [sg.Combo(['New York', 'Chicago', 'Washington', 'Colorado',
