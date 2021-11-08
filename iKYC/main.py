@@ -2,6 +2,7 @@ from interface import *
 import PySimpleGUI as sg
 from openexchangerates import OpenExchangeRatesClient
 from decimal import *
+import loginWithFaceID
 
 
 def main():
@@ -32,19 +33,21 @@ def main():
     #           [sg.Button(key='-login-', button_text='Log In', size=(10, 1), font='Helvetica 14')]]
 
     layout = [
-        [sg.Text('Log In With Email',
-                 justification='center', font='Helvetica 20')],
-        [sg.Text('Email ', justification='right'),
-         sg.InputText(key='-email-', do_not_clear=False)],
-        [sg.Text('Password ', justification='right'), sg.InputText(
-            key='-password-', do_not_clear=False, password_char='*')],
+        [sg.Text('Login With Email',
+                 justification='right', font='Helvetica 20')],
+        [sg.Text('Email ', justification='center', size=(7,1),font=(
+        DEFAULT_FONT,
+        15)),
+         sg.InputText(key='-email-', do_not_clear=True,size=(25,1))],
+        [sg.Text('Password ', justification='center',size=(7,1),
+                                                           font=(
+                                                               DEFAULT_FONT,
+                                                               15)),
+         sg.InputText(
+            key='-password-',do_not_clear=True, size=(25,1),
+             password_char='*')],
         [sg.Button(key='-login-', button_text='Log In',
-                   size=(10, 1), font='Helvetica 14')],
-        [sg.Text('Log In With Face ID',
-                 justification='center', font='Helvetica 20')],
-        [sg.Image(filename='image/faceidimage.png', key='-faceid-')],
-        [sg.Button(key='-loginFaceID-', button_text='Face ID', size=(10, 1),
-                   font='Helvetica 14')]]
+                   size=(10, 1), font='Helvetica 14')]]
 
     # 3 Create the window
     window = sg.Window('Log In', layout, size=DEFAULT_WINDOW_SIZE,
@@ -59,6 +62,19 @@ def main():
         if event == 'Close' or event == sg.WIN_CLOSED:
             break
         elif event == '-login-':
+            # check the email, password verification
+            print(values['-email-'],values['-password-'])
+            # db check
+            ################## DB QUERY CHECK TO GET checkEmail ###############
+            checkEmail = True
+            if checkEmail:
+                print("successful")
+                loginWithFaceID.loginFaceID()
+                # while True:
+                #     event, values = win.Read()
+                # win.Close()
+            else:
+                sg.Popup("Login Failed. Please retry.")
             print("log in pressed")
             login_Success = True
             window.Close()

@@ -7,8 +7,8 @@ import pickle
 
 def trainFace():
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    image_dir = os.path.join(BASE_DIR, "../data")
-
+    image_dir = os.path.join(BASE_DIR, "data")
+    print("trainFace:",image_dir)
     # Load the OpenCV face recognition detector Haar
     face_cascade = cv2.CascadeClassifier(
         'haarcascade/haarcascade_frontalface_default.xml')
@@ -51,7 +51,7 @@ def trainFace():
     # labels.pickle store the dict of labels.
     # {name: id}
     # id starts from 0
-    with open("labels.pickle", "wb") as f:
+    with open("FaceRecognition/labels.pickle", "wb") as f:
         pickle.dump(label_ids, f)
 
     # Train the recognizer and save the trained model.

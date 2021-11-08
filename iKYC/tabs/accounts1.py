@@ -35,8 +35,8 @@ def accountsFrame():
                                        [buttonElement("Search", "-search-", (100, 1))]])]
     frame = [searchFrame,
              [titleText("Accounts", justify='center', textColor='pink')],
-             [sg.Frame('Current Account', currentgetinfo())],
-             [sg.Frame('Savings Account', savinggetinfo())],
+             [sg.Frame('Current Account', currentgetinfo(),size=(700,180))],
+             [sg.Frame('Savings Account', savinggetinfo(),size=(700,180))],
              ]
 
     transactionsTab = [[sg.Column(frame)]]

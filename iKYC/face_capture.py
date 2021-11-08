@@ -11,7 +11,7 @@ def faceCapture(name="Example"):
     # Specify the `user_name` and `NUM_IMGS` here.
     user_name = name
     # NUM_IMGS = 400
-    NUM_IMGS = 100
+    NUM_IMGS = 50
 
     if not os.path.exists('data/{}'.format(user_name)):
         os.mkdir('data/{}'.format(user_name))

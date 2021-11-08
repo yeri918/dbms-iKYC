@@ -1,6 +1,5 @@
 import PySimpleGUI as sg
-from FaceRecognition import face_capture
-from FaceRecognition import train
+from iKYC import face_capture, train
 
 
 def signup():
