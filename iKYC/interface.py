@@ -2,7 +2,7 @@ from DEFINE import *
 import PySimpleGUI as sg
 from home import homeTabStuff
 from datetime import datetime
-from tabs import accountsPage
+from tabs import transactionPage, accounts1
 
 
 class Session:
@@ -25,13 +25,12 @@ class Session:
                                         background_color='White',
                                         tooltip='Personal details',
                                         element_justification='center'),
-                                 sg.Tab('My Accounts', self.getAccountsLayout(),
+                                 sg.Tab('My Accounts', accounts1.accountsFrame(),
                                         title_color='Black',
                                         background_color='White',
                                         key="-ACCOUNTTAB-"),
                                  sg.Tab('Transactions',
-                                        self.getTransactionLayout(
-                                        ), title_color='Black',
+                                        transactionPage.getTransactionLayout(), title_color='Black',
                                         background_color='White',
                                         key="-TRANSACTIONSTAB-"),
                                  sg.Tab('Profile', self.getProfileLayout(),
@@ -51,13 +50,13 @@ class Session:
                                font=("Helvetica", 15), key="-MAINTABGROUP-"),
                    sg.Button(
             'Close')],
-                  ]
+        ]
         return layout
 
     def getHomeLayout(self):
         name = "Jane Doe"
         accounts = [("Savings", "903838203", 830323), ("Current Account (HKD)",
-                                                     "3280223", 11000),
+                                                       "3280223", 11000),
                     ("Current Account (USD)", "82324803", 12801.3)]
 
         transactions = [("Withdrawal", "2021-10-10 23:18:24", "123.83"),
@@ -66,7 +65,7 @@ class Session:
                         ("Deposit", "2021-10-10 23:18:24", "2000.0")
                         ]
         loginHistory = ["2021-10-09 19:20:19", "2021-10-09 19:20:19",
-                      "2021-10-09 19:20:19"]
+                        "2021-10-09 19:20:19"]
 
         formattedAccounts = []
         for i in accounts:
@@ -85,8 +84,6 @@ class Session:
                                                               "%H:%M:%S").strftime("%d/%m/%Y %H:%M:%S"))
 
         currentLoginTime = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-
-
 
         homeTab = homeTabStuff(name=name, loginTime=currentLoginTime,
                                accounts=formattedAccounts,
@@ -133,7 +130,7 @@ class Session:
 
     def signOut(self):
         signOut = [[titleText('Sign Out Page')]]
-        #needs to end session and the take back to home screen
+        # needs to end session and the take back to home screen
 
         return signOut
     ################################## Get From DB #########################################

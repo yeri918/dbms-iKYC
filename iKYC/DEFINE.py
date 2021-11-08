@@ -14,7 +14,7 @@ def subTitleText(text="", justify='center', textSize=(20, 1)):
 
 
 def comboElement(listOfItems, comboKey):
-    return sg.Combo(listOfItems, size=(10, 1), key=comboKey, font=(DEFAULT_FONT, 13))
+    return sg.Combo(listOfItems, size=(10, 1), key=comboKey, font=(DEFAULT_FONT, 13), default_value=listOfItems[0])
 
 
 def buttonElement(text, buttonKey, buttonSize=(10, 1)):
