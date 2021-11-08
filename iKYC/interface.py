@@ -2,7 +2,7 @@ from DEFINE import *
 import PySimpleGUI as sg
 from home import homeTabStuff
 from datetime import datetime
-from tabs import transactionPage
+from tabs import transactionPage, accounts1
 
 
 class Session:
@@ -25,7 +25,7 @@ class Session:
                                         background_color='White',
                                         tooltip='Personal details',
                                         element_justification='center'),
-                                 sg.Tab('My Accounts', self.getAccountsLayout(),
+                                 sg.Tab('My Accounts', accounts1.accountsFrame(),
                                         title_color='Black',
                                         background_color='White',
                                         key="-ACCOUNTTAB-"),
