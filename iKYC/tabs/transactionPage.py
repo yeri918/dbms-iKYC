@@ -1,4 +1,3 @@
-from typing import Sized
 from DEFINE import *
 import PySimpleGUI as sg
 from datetime import datetime
@@ -41,7 +40,6 @@ def getSearchFrame():
 
 
 def getSearchTimeFrame():
-    # fromTime = getTimeSelection('From:', '-fromDate-', '-fromTime-', (5, 1))
     now = datetime.now()
     dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
     print(dt_string)
