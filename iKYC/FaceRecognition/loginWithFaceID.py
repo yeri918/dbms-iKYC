@@ -32,8 +32,9 @@ def loginFaceID():
         if event == '-loginFaceID-':
             try:
                 return checkFaceID()
-            except:
+            except Exception as e:
                 sg.popup("Something went wrong with opening the camera.")
+                print(e)
         if event == "EXIT" or event == sg.WIN_CLOSED:
             break
 
