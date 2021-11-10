@@ -160,6 +160,10 @@ def main():
                 print(values['-account-'], values['-fromAmount-'], values['-toAmount-'],
                       values['-fromDate-'], values['-fromTime-'],
                       values['-toDate-'], values['-toTime-'])
+
+            if event == sg.WIN_CLOSED or event == 'Sign Out':  # if user closes window or clicks cancel
+                break
+
         win.Close()
         session.logout()
 
