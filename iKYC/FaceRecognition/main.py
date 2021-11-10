@@ -35,16 +35,16 @@ def main():
     layout = [
         [sg.Text('Login With Email',
                  justification='right', font='Helvetica 20')],
-        [sg.Text('Email ', justification='center', size=(7,1),font=(
-        DEFAULT_FONT,
-        15)),
-         sg.InputText(key='-email-', do_not_clear=True,size=(25,1))],
-        [sg.Text('Password ', justification='center',size=(7,1),
-                                                           font=(
-                                                               DEFAULT_FONT,
-                                                               15)),
+        [sg.Text('Email ', justification='center', size=(7, 1), font=(
+            DEFAULT_FONT,
+            15)),
+         sg.InputText(key='-email-', do_not_clear=True, size=(25, 1))],
+        [sg.Text('Password ', justification='center', size=(7, 1),
+                 font=(
+            DEFAULT_FONT,
+            15)),
          sg.InputText(
-            key='-password-',do_not_clear=True, size=(25,1),
+            key='-password-', do_not_clear=True, size=(25, 1),
              password_char='*')],
         [sg.Button(key='-login-', button_text='Log In',
                    size=(10, 1), font='Helvetica 14')]]
