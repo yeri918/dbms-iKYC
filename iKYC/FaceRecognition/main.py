@@ -42,7 +42,7 @@ def main():
     #           [sg.Text('Password : '), sg.InputText(
     #               key='-password-', do_not_clear=False, password_char='*')]
     #           [sg.Button(key='-login-', button_text='Log In', size=(10, 1), font='Helvetica 14')]]
-
+    sg.theme('Dark')
     layout = [
         [sg.Text('Login With Email',
                  justification='right', font='Helvetica 20')],
