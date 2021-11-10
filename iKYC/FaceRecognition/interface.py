@@ -2,9 +2,12 @@ from DEFINE import *
 import PySimpleGUI as sg
 from home import homeTabStuff
 from datetime import datetime
-#
-from iKYC.FaceRecognition import transactionPage, accounts1
-from tabs import transactionPage, accounts1, transferPage
+
+import transactionPage
+import accounts1
+import transactionPage
+import accounts1
+import transferPage
 
 
 class Session:
