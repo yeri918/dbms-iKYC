@@ -9,20 +9,20 @@ import database as db
 
 def main():
     # 1 Create database connection
-    try:
-        myconn = db.connect()
-        print("database connection successful")
-    except:
-        print("connection unsuccessful")
-
-    cursor = myconn.cursor()
-
-    ############# EXAMPLE ###################
-    name = cursor.execute("SELECT * FROM Customer")
-    result = cursor.fetchall()
-    print(type(result))
-    print(result)
-    ########################################
+    # try:
+    #     myconn = db.connect()
+    #     print("database connection successful")
+    # except:
+    #     print("connection unsuccessful")
+    #
+    # cursor = myconn.cursor()
+    #
+    # ############# EXAMPLE ###################
+    # name = cursor.execute("SELECT * FROM Customer")
+    # result = cursor.fetchall()
+    # print(type(result))
+    # print(result)
+    # ########################################
 
     # 2 Load reconizer and read labels from model
 
