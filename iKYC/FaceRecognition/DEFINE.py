@@ -1,5 +1,11 @@
 import PySimpleGUI as sg
 
+HOST = 'localhost'
+USER = "root"
+PASSWORD = "root"
+DATABASE = "facerecognition"
+
+
 DEFAULT_FONT = 'Lucida'
 
 DEFAULT_WINDOW_SIZE = (720, 530)
