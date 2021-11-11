@@ -139,7 +139,8 @@ def main():
             # transactions tab
             if event == '-MOREDETAILSTRANSACTIONS-':
                 win.Element("-TRANSACTIONSTAB-").select()
-
+            # event if more details on transactions text clicked, take to
+            # transactions tab
             if event == '-transcationPageDetails-':
                 win.Element("-TRANSACTIONSTAB-").select()
             if event == '-transcationPageDetails1-':
@@ -165,6 +166,10 @@ def main():
                 print(values['-account-'], values['-fromAmount-'], values['-toAmount-'],
                       values['-fromDate-'], values['-fromTime-'],
                       values['-toDate-'], values['-toTime-'])
+
+            if event == '-search1-':
+                print("ACCOUNTS_SEARCH - values for queries")
+                print(values['-account1-'])
 
             if event == sg.WIN_CLOSED or event == 'Sign Out':  # if user closes window or clicks cancel
                 break

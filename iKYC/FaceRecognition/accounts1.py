@@ -6,7 +6,7 @@ from datetime import datetime
 
 def getSearchFrame():
     search = [[subTitleText('Select Account Type: ', textSize=(20, 1)), comboElement(
-            ["All Accounts",'Current Account', 'Savings Account'], '-account-')]]
+            ["All Accounts",'Current Account', 'Savings Account'], '-account1-')]]
     return search
 
 def currentgetinfo():
@@ -37,7 +37,7 @@ def savinggetinfo():
 def accountsFrame():
     test1 = [[titleText('Account 1'), subTitleText('subtext')]]
     searchFrame = [sg.Frame('FILTER', [[sg.Frame('', getSearchFrame())],
-                                       [buttonElement("Search", "-search-", (100, 1))]],font=("Lucida", 18))]
+                                       [buttonElement("Search", "-search1-", (100, 1))]],font=("Lucida", 18))]
     frame = [searchFrame,
              [titleText("Accounts", justify='center', textColor='Grey')],
              [sg.Frame('CURRENT ACCOUNT', currentgetinfo(),font=("Lucida", 18), size=(340,400)),sg.Frame('SAVINGS ACCOUNT', savinggetinfo(),font=("Lucida", 18), size=(340,400))],
