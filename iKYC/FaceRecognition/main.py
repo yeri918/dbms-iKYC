@@ -140,6 +140,11 @@ def main():
             if event == '-MOREDETAILSTRANSACTIONS-':
                 win.Element("-TRANSACTIONSTAB-").select()
 
+            if event == '-transcationPageDetails-':
+                win.Element("-TRANSACTIONSTAB-").select()
+            if event == '-transcationPageDetails1-':
+                    win.Element("-TRANSACTIONSTAB-").select()
+
             # currency convert button event
             if event == "Convert":
                 client = OpenExchangeRatesClient(

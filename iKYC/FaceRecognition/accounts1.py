@@ -15,6 +15,8 @@ def currentgetinfo():
            [subTitleText('Account Balance: HKD', justify='right')],
            [subTitleText('Credit Limit: HKD', justify='right')],
            [subTitleText('Credit Remaining: HKD', justify='right')],
+           [sg.Text("More Details", font=("Lucida",13,"underline"),justification='left', text_color="white", enable_events=True,
+                   key="-transcationPageDetails-")]
            ]
 
     return yes
@@ -25,6 +27,9 @@ def savinggetinfo():
            [subTitleText('Account Balance: HKD', justify='right')],
            [subTitleText('Credit Limit: HKD', justify='right')],
            [subTitleText('Credit Remaining: HKD', justify='right')],
+           [sg.Text("More Details", font=("Lucida", 13, "underline"), justification='left', text_color="white",
+                    enable_events=True,
+                    key="-transcationPageDetails1-")]
            ]
 
     return yes
