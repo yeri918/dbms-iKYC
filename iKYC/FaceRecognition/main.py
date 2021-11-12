@@ -14,10 +14,11 @@ def main():
     #     print("database connection successful")
     # except:
     #     print("connection unsuccessful")
-    #
+
     # cursor = myconn.cursor()
-    #
+
     # ############# EXAMPLE ###################
+    # cursor.execute('USE facerecognition')
     # name = cursor.execute("SELECT * FROM Customer")
     # result = cursor.fetchall()
     # print(type(result))
@@ -79,19 +80,22 @@ def main():
             # check the email, password verification
             # db check
             ################## DB QUERY CHECK TO GET checkEmail ###############
+
             if values['-email-'] != "" and values['-password-'] != "":
-                # temporary values, need ot get these from the db based on the
-                # email entered
-                email = "p"
-                password = hashlib.sha256(b"p").hexdigest()
 
-                checkEmail = False
-                bytePassword = values['-password-'].encode()
+                ####################################
+                ############# DO NOT DELETE################
+                # dbpw = db.getLoginInfo(myconn, values['-email-'])
+                # userpw = hashlib.sha1(
+                #     values['-password-'].encode('utf-8')).hexdigest()
+                # userpw = bytearray(userpw.encode())
 
-                if values['-email-'] == email and hashlib.sha256(
-                        bytePassword).hexdigest() == password:
-                    checkEmail = True
+                # checkEmail = False
 
+                # if dbpw[0] == userpw:
+                #     checkEmail = True
+                #######################################
+                checkEmail = True
                 if checkEmail:
                     print("successful")
                     login_Success = loginWithFaceID.loginFaceID()
@@ -144,7 +148,7 @@ def main():
             if event == '-transcationPageDetails-':
                 win.Element("-TRANSACTIONSTAB-").select()
             if event == '-transcationPageDetails1-':
-                    win.Element("-TRANSACTIONSTAB-").select()
+                win.Element("-TRANSACTIONSTAB-").select()
 
             # currency convert button event
             if event == "Convert":
