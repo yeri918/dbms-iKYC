@@ -3,8 +3,7 @@ import PySimpleGUI as sg
 from home import homeTabStuff
 from datetime import datetime
 #
-from iKYC.FaceRecognition import transactionPage, accounts1
-from tabs import transactionPage, accounts1, transferPage
+from iKYC.FaceRecognition import transactionPage, accounts1, transferPage
 
 
 class Session:
@@ -52,8 +51,9 @@ class Session:
                                selected_background_color='Gray',
                                border_width=5, size=DEFAULT_WINDOW_SIZE,
                                font=("Helvetica", 15), key="-MAINTABGROUP-"),
-                   sg.Button(
-            'Close')],
+
+                   [sg.Column([sg.Button("Close")],
+                             element_justification="right")]],
         ]
         return layout
 
