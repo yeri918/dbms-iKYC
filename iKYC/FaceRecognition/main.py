@@ -4,14 +4,25 @@ from openexchangerates import OpenExchangeRatesClient
 from decimal import *
 import loginWithFaceID
 import hashlib
+import database as db
+
 
 def main():
     # 1 Create database connection
-
-    # myconn = db.connect()
-    # now = datetime.now()
-    # current_time = now.strftime("%H:%M:%S")
+    # try:
+    #     myconn = db.connect()
+    #     print("database connection successful")
+    # except:
+    #     print("connection unsuccessful")
+    #
     # cursor = myconn.cursor()
+    #
+    # ############# EXAMPLE ###################
+    # name = cursor.execute("SELECT * FROM Customer")
+    # result = cursor.fetchall()
+    # print(type(result))
+    # print(result)
+    # ########################################
 
     # 2 Load reconizer and read labels from model
 
@@ -31,7 +42,7 @@ def main():
     #           [sg.Text('Password : '), sg.InputText(
     #               key='-password-', do_not_clear=False, password_char='*')]
     #           [sg.Button(key='-login-', button_text='Log In', size=(10, 1), font='Helvetica 14')]]
-
+    sg.theme('Dark')
     layout = [
         [sg.Text('Login With Email',
                  justification='right', font='Helvetica 20')],
@@ -47,7 +58,10 @@ def main():
             key='-password-', do_not_clear=True, size=(25, 1),
              password_char='*')],
         [sg.Button(key='-login-', button_text='Log In',
-                   size=(10, 1), font='Helvetica 14')]]
+                   size=(10, 1), font='Helvetica 14')],
+        [subTitleText(
+            "Please sign up if you do not have an account.", textSize=(35, 1))],
+        [buttonElement("Sign Up", "-signup-")]]
 
     # 3 Create the window
     window = sg.Window('Log In', layout, size=DEFAULT_WINDOW_SIZE,
@@ -65,19 +79,18 @@ def main():
             # check the email, password verification
             # db check
             ################## DB QUERY CHECK TO GET checkEmail ###############
-            if values['-email-']!="" and values['-password-']!="":
-                #temporary values, need ot get these from the db based on the
+            if values['-email-'] != "" and values['-password-'] != "":
+                # temporary values, need ot get these from the db based on the
                 # email entered
                 email = "p"
                 password = hashlib.sha256(b"p").hexdigest()
 
-
-                checkEmail= False
+                checkEmail = False
                 bytePassword = values['-password-'].encode()
 
-                if values['-email-']== email and hashlib.sha256(
+                if values['-email-'] == email and hashlib.sha256(
                         bytePassword).hexdigest() == password:
-                    checkEmail=True
+                    checkEmail = True
 
                 if checkEmail:
                     print("successful")
@@ -92,6 +105,10 @@ def main():
 
             else:
                 sg.popup("Please enter correct values.")
+
+        # if event == '-signup-':
+
+            # window = sg.Window("Sign Up",)
 
     if login_Success:
         # conn = db.connect()
@@ -122,6 +139,12 @@ def main():
             # transactions tab
             if event == '-MOREDETAILSTRANSACTIONS-':
                 win.Element("-TRANSACTIONSTAB-").select()
+            # event if more details on transactions text clicked, take to
+            # transactions tab
+            if event == '-transcationPageDetails-':
+                win.Element("-TRANSACTIONSTAB-").select()
+            if event == '-transcationPageDetails1-':
+                    win.Element("-TRANSACTIONSTAB-").select()
 
             # currency convert button event
             if event == "Convert":
@@ -143,6 +166,14 @@ def main():
                 print(values['-account-'], values['-fromAmount-'], values['-toAmount-'],
                       values['-fromDate-'], values['-fromTime-'],
                       values['-toDate-'], values['-toTime-'])
+
+            if event == '-search1-':
+                print("ACCOUNTS_SEARCH - values for queries")
+                print(values['-account1-'])
+
+            if event == sg.WIN_CLOSED or event == 'Sign Out':  # if user closes window or clicks cancel
+                break
+
         win.Close()
         session.logout()
 

@@ -2,8 +2,13 @@ from DEFINE import *
 import PySimpleGUI as sg
 from home import homeTabStuff
 from datetime import datetime
-#
-from iKYC.FaceRecognition import transactionPage, accounts1, transferPage
+
+import transactionPage
+import accounts1
+import transactionPage
+import accounts1
+import transferPage
+import profile
 
 
 class Session:
@@ -96,6 +101,17 @@ class Session:
 
         return homeTab
 
+    def getProfileLayout(self):
+        name = "Jane Doe"
+        dob = "2021-10-10"
+        address = "9 lung wah st"
+        email = "thisisemail@email.com"
+        phoneNumber = "456789123"
+        myProfileTab = profile.frameRight(name, dob, phoneNumber, email, address)
+
+        return myProfileTab
+
+
     def getAccountsLayout(self):
         myAccountsTab = [[titleText('Accounts')]
                          ]
@@ -128,9 +144,9 @@ class Session:
 
         return transactionsTab
 
-    def getProfileLayout(self):
-        profileTab = [[subTitleText('Name')]]
-        return profileTab
+    # def getProfileLayout(self):
+    #     profileTab = [[subTitleText('Name')]]
+    #     return profileTab
 
     def signOut(self):
         signOut = [[titleText('Sign Out Page')]]
