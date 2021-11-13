@@ -31,22 +31,29 @@ class Session:
                                         background_color='White',
                                         tooltip='Personal details',
                                         element_justification='center'),
-                                 sg.Tab('My Accounts', accounts1.accountsFrame(),
+                                 sg.Tab('My Accounts',
+                                        accounts1.accountsFrame(),
                                         title_color='Black',
                                         background_color='White',
                                         key="-ACCOUNTTAB-"),
                                  sg.Tab('Transactions',
-                                        transactionPage.getTransactionLayout(), title_color='Black',
+                                        transactionPage.getTransactionLayout(),
+                                        title_color='Black',
                                         background_color='White',
                                         key="-TRANSACTIONSTAB-"),
-                                sg.Tab('Transfer',
-                                       transferPage.getTransferLayout(), title_color='Black',
-                                       background_color='White', key='-TRANSFERTAB-'),
-                                sg.Tab('Profile', self.getProfileLayout(), title_color='Black',
-                                       background_color='White'),
+                                 sg.Tab('Transfer',
+                                        transferPage.getTransferLayout(),
+                                        title_color='Black',
+                                        background_color='White',
+                                        key='-TRANSFERTAB-'),
+                                 sg.Tab('Profile', self.getProfileLayout(),
+                                        title_color='Black',
+                                        background_color='White'),
                                  sg.Tab('Sign Out', self.signOut(),
-                   title_color="Red",
-                   background_color='White',
+                                        title_color="Red",
+                                        background_color='White',
+                                        element_justification="right",
+                                        expand_x="right"
                                         )],
                                 ],
                                tab_location='topleft',
@@ -55,11 +62,15 @@ class Session:
                                selected_title_color='White',
                                selected_background_color='Gray',
                                border_width=5, size=DEFAULT_WINDOW_SIZE,
-                               font=("Helvetica", 15), key="-MAINTABGROUP-"),
+                               font=("Helvetica", 15), key="-MAINTABGROUP-",
+                               expand_x=True),
 
-                   [sg.Column([sg.Button("Close")],
-                             element_justification="right")]],
-        ]
+
+
+
+                   # [sg.Column([sg.Button("Close")],
+                   #           element_justification="right")]],
+                   ]]
         return layout
 
     def getHomeLayout(self):
@@ -82,7 +93,6 @@ class Session:
 
         formattedAccountsTransactions = []
         for transaction in transactions:
-
             formattedAccountsTransactions.append([transaction[0],
                                                   transaction[1].split(" ")[0],
                                                   transaction[2]])
@@ -90,7 +100,8 @@ class Session:
         formattedLoginHistory = []
         for i in loginHistory:
             formattedLoginHistory.append(datetime.strptime(i, "%Y-%m-%d "
-                                                              "%H:%M:%S").strftime("%d/%m/%Y %H:%M:%S"))
+                                                              "%H:%M:%S").strftime(
+                "%d/%m/%Y %H:%M:%S"))
 
         currentLoginTime = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
 
@@ -107,10 +118,10 @@ class Session:
         address = "9 lung wah st"
         email = "thisisemail@email.com"
         phoneNumber = "456789123"
-        myProfileTab = profile.frameRight(name, dob, phoneNumber, email, address)
+        myProfileTab = profile.frameRight(name, dob, phoneNumber, email,
+                                          address)
 
         return myProfileTab
-
 
     def getAccountsLayout(self):
         myAccountsTab = [[titleText('Accounts')]
