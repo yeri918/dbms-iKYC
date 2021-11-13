@@ -2,7 +2,7 @@ import PySimpleGUI as sg
 
 HOST = 'localhost'
 USER = "root"
-PASSWORD = "root"
+PASSWORD = "julie7978"
 DATABASE = "facerecognition"
 
 
