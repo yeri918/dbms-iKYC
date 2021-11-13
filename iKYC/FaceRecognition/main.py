@@ -3,6 +3,7 @@ import PySimpleGUI as sg
 from openexchangerates import OpenExchangeRatesClient
 from decimal import *
 import loginWithFaceID
+import signup
 import hashlib
 import database as db
 
@@ -110,9 +111,11 @@ def main():
             else:
                 sg.popup("Please enter correct values.")
 
-        # if event == '-signup-':
+        if event == '-signup-':
 
-            # window = sg.Window("Sign Up",)
+            signup.signup()
+
+            #window = sg.Window("Sign Up",)
 
     if login_Success:
         # conn = db.connect()

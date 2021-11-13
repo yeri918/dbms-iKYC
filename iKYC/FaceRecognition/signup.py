@@ -1,27 +1,67 @@
 import PySimpleGUI as sg
 from iKYC.FaceRecognition import face_capture, train
+import base64
+import hashlib
 
 
 def signup():
-    Left_Column = [[sg.Text('To Enable FaceID'), sg.Text(' '*10)],
-                   [sg.Button('Train')]]
+    # Left_Column = [[sg.Text('To Enable FaceID'), sg.Text(' '*10)],
+    #                [sg.Button('Train')]]
+    #
+    # Right_Column = [[sg.Button('Forgot email')],
+    #                 [sg.Button('Forgot password')]]
 
-    Right_Column = [[sg.Button('Forgot email')],
-                    [sg.Button('Forgot password')]]
+    addressLayout = [[sg.Text('Line 1: '), sg.InputText(
+        key='-LINE1ADDRESS-', )],
+                     [sg.Text('Line 2: '), sg.InputText(
+                         key='-LINE2ADDRESS-', )],
+                     [sg.Text('City: '), sg.InputText(
+                         key='-CITY-', )],
+                     [sg.Text('Country: '), sg.InputText(
+                         key='-COUNTRY-', )]]
 
-    layout = [[sg.Text('Username: '), sg.InputText(key='username', do_not_clear=False)],
-              [sg.Text('Password: '), sg.InputText(
-                  key='password', do_not_clear=False, password_char='*')],
+    layout = [[sg.Text('Last Name: '), sg.InputText(key='-LASTNAME-',
+                                                    )],
+              [sg.Text('Given Name(s): '), sg.InputText(
+                  key='-GIVENNAME-')],
               [sg.Text('Email: '), sg.InputText(
-                  key='email', do_not_clear=False)],
-              [sg.Column(Left_Column), sg.VSeperator(), sg.Column(Right_Column)]]
+                  key='-EMAIL-', )],
+              [sg.Text('Password: '), sg.InputText(
+                  key='-PASSWORD-', password_char="*")],
+              [sg.Text("Date of Birth:"),
+               sg.Input("DD / MM / YYYY", key="-DOB-", enable_events=True),
+               sg.CalendarButton(
+                  "Select",
+                  target="-DOB-", format=('%d/ %m/ '
+                                       '%Y'))],
+
+              [sg.Frame('Address', addressLayout, pad=(0, 10))],
+              [sg.Text("Types of accounts you would like to open (Must "
+                       "choose at least 1):")],
+              [sg.Checkbox("Savings Account", key="-CHECKBOX_SAVING-"),
+               sg.Checkbox("Checking Account (HKD)",
+                           key="-CHECKBOX_CHECKING_HKD-"),
+               sg.Checkbox(
+                   "Checking "
+                   "Account ("
+                   "USD)", key="-CHECKBOX_CHECKING_USD-")],
+              [sg.HorizontalSeparator()],
+              [sg.Text("Add a form of address proof (Bank statement, driver "
+                       "license)"
+                       ":")],
+              [sg.FileBrowse(key="-ADDRESSPROOF-"), sg.Input()],
+              [sg.Text("Add a form of identity proof (HKID, Passport):")],
+              [sg.FileBrowse(key="-IDENTITYPROOF-"), sg.Input()],
+              [sg.Column([[sg.Button("Sign Up", key="-SUBMITSIGNUP-")]],
+                         element_justification="right", expand_x=True)]
+              ]
 
     window = sg.Window('Sign Up', layout, margins=(20, 40))
 
     while True:
-        event, values = window.Read()
+        event, values = window.read()
         print('event')
-        if(event == 'Train'):
+        if (event == 'Train'):
             try:
                 face_capture.faceCapture("Yeseo")
             except:
@@ -31,3 +71,54 @@ def signup():
 
         if event == "EXIT" or event == sg.WIN_CLOSED:
             break
+        if event == "-DOB-":
+            window.force_focus()
+
+        if event == "-SUBMITSIGNUP-":
+            try:
+                # need to collect all the input fields
+                dob = values["-DOB-"]
+                firstName = values["-GIVENNAME-"]
+                lastName = values["-LASTNAME-"]
+                email = values["-EMAIL-"]
+                userpw = hashlib.sha1(
+                        values['-PASSWORD-'].encode('utf-8')).hexdigest()
+                userpw = bytearray(userpw.encode())
+
+                #address details
+                line1 = values["-LINE1ADDRESS-"]
+                line2 = values["-LINE2ADDRESS-"]
+                city = values["-CITY-"]
+                country = values["-COUNTRY-"]
+
+
+                # boolean values of check boxes
+                savings_account = values["-CHECKBOX_SAVING-"]
+                checking_account_hkd = values["-CHECKBOX_CHECKING_HKD-"]
+                checking_account_usd = values["-CHECKBOX_CHECKING_USD-"]
+
+                # converting address proof file to blob
+                with open(values["-ADDRESSPROOF-"], 'rb') as f:
+                    addressProof = base64.b64encode(f.read())
+
+                # converting identity proof file to blob
+                with open(values["-IDENTITYPROOF-"], 'rb') as f:
+                    identityProof = base64.b64encode(f.read())
+
+                print(firstName, lastName, dob, email, userpw, line1, line2,
+                      city, country, savings_account, checking_account_usd,
+                      checking_account_hkd)
+
+                #if all data is entered
+                if firstName!="" and lastName !="" and email!="" and \
+                        userpw!="" \
+                        and line1!="" and city!="" and country!="" and (\
+                                checking_account_usd or checking_account_hkd
+                                or savings_account) and identityProof!=None \
+                        and addressProof!=None:
+                    print("data entered")
+                else:
+                    sg.popup("Not all fields were filled in. Please check.")
+            except:
+                sg.popup("Issue with file upload. Please try again.")
+
