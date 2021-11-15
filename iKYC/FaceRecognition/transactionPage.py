@@ -23,20 +23,24 @@ def getAccountList():
     return frame
 
 
-def getAccountList():
-    account = ['All', 'Account 1', 'Account 2']
+def getAccountList(conn, userID):
+    accountList = db.getCustomerAccountList(conn, userID)
+    account = ['All']
+    for i in accountList:
+        account.append(i['account_type'])
     return account
 
 
-def getSearchFrame():
+def getSearchFrame(conn, userID):
+    maxAmount = db.getmaxtransaction(conn, userID)
     search = [
         [subTitleText('Select Account Type: ', textSize=(15, 1)), comboElement(
-            getAccountList(), '-account-')],
+            getAccountList(conn, userID), '-account-')],
         [sg.Text('_'*50)],
         [subTitleText('Indicate the range of Amount (HKD):',
                       textSize=(25, 1))],
         [subTitleText('From:', textSize=(5, 1)), inputText(
-            "-fromAmount-", default=0), subTitleText('To:', textSize=(3, 1)), inputText('-toAmount-', default="MAX")]]
+            "-fromAmount-", default=0), subTitleText('To:', textSize=(3, 1)), inputText('-toAmount-', default=maxAmount)]]
     return search
 
 
@@ -54,21 +58,25 @@ def getSearchTimeFrame():
     return time
 
 
-def getTableValues():
-    values = [("Withdrawal", "A123", "10/12/2021 08:20:11", "500HKD", "500HKD withdrawal"),
-              ("Deposit", "A123", "10/12/2021 08:20:11", "500HKD", "500HKD deposit"),
-              ("Deposit", "A124", "10/13/2021 09:21:12", "100HKD", "100HKD deposit"),
-              ("Transfer", "A124", "10/13/2021 20:12:20", "120HKD", "120HKD transfer")]
+def getTableValues(transactions):
+    # transaction = db.getTransactionHistory(conn, customer_id)
+    values = []
+    for i in transactions:
+        date_time = i['transaction_time'].strftime("%m/%d/%Y %H:%M:%S")
+        temp = (i['transaction_type'], i['account_number'], date_time,
+                str(i['transaction_amount'])+"HKD", i['transaction_description'])
+        values.append(temp)
     return values
 
 
-def getTransactionLayout(conn, userID):
-    accountList = db.getCustomerAccount(conn, userID)
-    print(accountList)
-    searchFrame = [sg.Frame('FILTER', [[sg.Frame('', getSearchFrame()), sg.Frame('', getSearchTimeFrame())],
+def getTransactionLayout(conn, userID, transactionsList):
+    print("\n")
+    print(transactionsList)
+    print("\n")
+    searchFrame = [sg.Frame('FILTER', [[sg.Frame('', getSearchFrame(conn, userID)), sg.Frame('', getSearchTimeFrame())],
                                        [buttonElement("Search", "-search-", (100, 1))]])]
 
-    table = sg.Table(values=getTableValues(),
+    table = sg.Table(values=transactionsList,
                      headings=["Type", "Account No.",
                                "Time", "Amount", "Description"],
                      auto_size_columns=False,

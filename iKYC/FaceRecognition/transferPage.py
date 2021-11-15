@@ -1,18 +1,24 @@
 from DEFINE import *
 import PySimpleGUI as sg
+import database as db
+from forex_python.converter import CurrencyRates
 
 
-def getAccountList():
-    return ['Account 1', 'Account 2']
+def getAccountList(conn, userID):
+    accountList = db.getAllAccountNumberOfCustomer(conn, userID)
+    account = []
+    for i in accountList:
+        account.append(i['account_type']+" "+i['account_number'])
+    return account
 
 
-def getTransferFrame():
+def getTransferFrame(conn, userID):
     layout = [[titleText('Transfer', textSize=(30, 1))],
               [sg.HorizontalSeparator()],
               [sg.Frame('', [[titleText('From', justify='left', textSize=(30, 1))],
                              [subTitleText("*Select account*",
                                            justify='left')],
-                             [comboElement(getAccountList(), '-accountTransfer-', comboSize=(35, 1), fontSize=17)]], size=(390, 90))],
+                             [comboElement(getAccountList(conn, userID), '-accountTransfer-', comboSize=(35, 1), fontSize=17)]], size=(390, 90))],
               [sg.Frame('', [[titleText('To', justify='left', textSize=(30, 1))],
                              [subTitleText(
                                  "*Please enter the payee's account number*", justify='left', textSize=(35, 1))],
@@ -35,7 +41,7 @@ def getPayee(name, account):
     return frame
 
 
-def getRecentPayees():
+def getRecentPayees(conn, userID):
     layout = [[titleText('Recent Payees', textSize=(30, 1))],
               [sg.HorizontalSeparator()],
               [getPayee('Julie Park', '123456789')],
@@ -47,7 +53,15 @@ def getRecentPayees():
     return layout
 
 
-def getTransferLayout():
-    layout = [[sg.Frame('', getTransferFrame(), size=(400, 500)),
-               sg.Frame('', getRecentPayees(), size=(300, 500))]]
+def getTransferLayout(conn, userID):
+    layout = [[sg.Frame('', getTransferFrame(conn, userID), size=(400, 500)),
+               sg.Frame('', getRecentPayees(conn, userID), size=(300, 500))]]
     return layout
+
+
+def convertToHKD(value, currency):
+    print(value, currency)
+    c = CurrencyRates()
+    rate = c.get_rate(currency, 'HKD')
+    print(rate)
+    return int(value)*rate

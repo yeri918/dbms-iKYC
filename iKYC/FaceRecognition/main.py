@@ -86,12 +86,11 @@ def main():
                 userpw = bytearray(userpw.encode())
 
                 checkEmail = False
-
                 if dbpw[0] == userpw:
                     checkEmail = True
+                    print("passwords check")
                     customerID = db.getCustomerID(myconn, values['-email-'])
                 #######################################
-                checkEmail = True
                 if checkEmail:
                     print("successful")
                     login_Success = loginWithFaceID.loginFaceID()
@@ -110,7 +109,7 @@ def main():
 
             signup.signup()
 
-            #window = sg.Window("Sign Up",)
+            # window = sg.Window("Sign Up",)
 
     if login_Success:
         # conn = db.connect()
@@ -130,10 +129,33 @@ def main():
                 break
             if event == '-search-':
                 print("search pressed")
-                print(values['-account-'], values['-fromAmount-'],
-                      values['-toAmount-'])
-                print(values['-fromDate-'], values['-fromTime-'],
-                      values['-toTime-'], values['-toDate-'])
+                fromTime = datetime.strptime(
+                    values['-fromDate-'] + " "+values['-fromTime-'], '%d/%m/%Y %H:%M:%S')
+                toTime = datetime.strptime(
+                    values['-toDate-'] + " "+values['-toTime-'], '%d/%m/%Y %H:%M:%S')
+
+                transactions = db.filterTransactionWithType(
+                    myconn, values['-account-'], fromTime, toTime, values['-fromAmount-'], values['-toAmount-'])
+                updateTrans = transactionPage.getTableValues(transactions)
+                win.Element('-transactionTable-').Update(values=updateTrans)
+                win['-TRANSACTIONSTAB-'].Update(visible=True)
+
+            if event == '-transferButton-':
+                if (values['-accountTransfer-'] == "" or values['-transferTo-'] == "" or
+                        values['-amountTransfer-'] == "" or values['-currencyTransfer-'] == ""):
+                    sg.Popup("Please enter all values.")
+                else:
+                    amount = transferPage.convertToHKD(
+                        values['-amountTransfer-'], values['-currencyTransfer-'])
+                    success = db.addTransactionSuccess(
+                        myconn, values['-accountTransfer-'][-11:], amount, "transfer", values['-remarksTransfer-'])
+                    if not success:
+                        sg.Popup("Transaction unsuccessful.")
+                    else:
+                        sg.Popup("Transaction successful!")
+                        win['-amountTransfer-'].update("")
+                        win['-transferTo-'].update("")
+                        win['-remarksTransfer-'].update("")
 
             # event if more details on accounts text clicked, take to
             # accounts tab
@@ -159,8 +181,8 @@ def main():
                 inputCurrency = values['-INPUTCURRENCY-']
                 outputCurrency = values['-OUTPUTCURRENCY-']
 
-                fromInputCurrencyToUSD = Decimal(inputCurrencyAmt) / \
-                    client.latest()["rates"][inputCurrency]
+                fromInputCurrencyToUSD = Decimal(inputCurrencyAmt)
+                client.latest()["rates"][inputCurrency]
                 fromUSDToOutputCurrency = round(fromInputCurrencyToUSD *
                                                 client.latest()["rates"][
                                                     outputCurrency], 2)

@@ -2,6 +2,8 @@ from DEFINE import *
 import PySimpleGUI as sg
 from home import homeTabStuff
 from datetime import datetime
+import database as db
+
 
 import transactionPage
 import accounts1
@@ -15,7 +17,11 @@ class Session:
     def __init__(self, conn, userID):
         self.conn = conn
         self.userID = userID
+        # if transaction =="":
+        #     transaction = self.getTransactionsFromDB()
+        # self.transaction = transaction
         # sg.theme('DarkTanBlue')
+        self.transaction = self.getTransactionsFromDB()
 
     def getMainWindow(self):
         window = sg.Window(
@@ -23,7 +29,21 @@ class Session:
             size=DEFAULT_WINDOW_SIZE)
         return window
 
+    def updateTransactions(self, transactions):
+        self.getMainWindow(transactions)
+
     ################################## LAYOUTS #########################################
+
+    def getTransactionsFromDB(self):
+        transaction = db.getTransactionHistory(self.conn, self.userID)
+        print("From getTransactionsFromDB", transaction)
+        values = []
+        for i in transaction:
+            date_time = i['transaction_time'].strftime("%m/%d/%Y %H:%M:%S")
+            temp = (i['transaction_type'], i['account_number'], date_time,
+                    str(i['transaction_amount'])+"HKD", i['transaction_description'])
+            values.append(temp)
+        return values
 
     def getMainLayout(self):
         layout = [[sg.TabGroup([[sg.Tab('Home', self.getHomeLayout(),
@@ -38,12 +58,13 @@ class Session:
                                         key="-ACCOUNTTAB-"),
                                  sg.Tab('Transactions',
                                         transactionPage.getTransactionLayout(
-                                            self.conn, self.userID),
+                                            self.conn, self.userID, self.getTransactionsFromDB()),
                                         title_color='Black',
                                         background_color='White',
                                         key="-TRANSACTIONSTAB-"),
                                  sg.Tab('Transfer',
-                                        transferPage.getTransferLayout(),
+                                        transferPage.getTransferLayout(
+                                            self.conn, self.userID),
                                         title_color='Black',
                                         background_color='White',
                                         key='-TRANSFERTAB-'),
