@@ -8,7 +8,7 @@ def loginFaceID():
     # need the user's name (db query)
     layoutForFaceID = [[sg.Text('Log In With Face ID', justification='center', font='Helvetica 20')],
                        [sg.Image(
-                           filename='FaceRecognition/image/faceidimage.png',
+                           filename='image/faceidimage.png',
                            key='-faceid-')],
                        [sg.Button(key='-trainFace-', button_text='Train',
                                   size=(10, 1), font='Helvetica 14')],

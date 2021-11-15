@@ -1,5 +1,6 @@
 import PySimpleGUI as sg
-from iKYC.FaceRecognition import face_capture, train
+import face_capture
+import train
 import base64
 import hashlib
 
@@ -13,12 +14,12 @@ def signup():
 
     addressLayout = [[sg.Text('Line 1: '), sg.InputText(
         key='-LINE1ADDRESS-', )],
-                     [sg.Text('Line 2: '), sg.InputText(
-                         key='-LINE2ADDRESS-', )],
-                     [sg.Text('City: '), sg.InputText(
-                         key='-CITY-', )],
-                     [sg.Text('Country: '), sg.InputText(
-                         key='-COUNTRY-', )]]
+        [sg.Text('Line 2: '), sg.InputText(
+            key='-LINE2ADDRESS-', )],
+        [sg.Text('City: '), sg.InputText(
+            key='-CITY-', )],
+        [sg.Text('Country: '), sg.InputText(
+            key='-COUNTRY-', )]]
 
     layout = [[sg.Text('Last Name: '), sg.InputText(key='-LASTNAME-',
                                                     )],
@@ -33,7 +34,7 @@ def signup():
                sg.CalendarButton(
                   "Select",
                   target="-DOB-", format=('%d/ %m/ '
-                                       '%Y'))],
+                                          '%Y'))],
 
               [sg.Frame('Address', addressLayout, pad=(0, 10))],
               [sg.Text("Types of accounts you would like to open (Must "
@@ -82,15 +83,14 @@ def signup():
                 lastName = values["-LASTNAME-"]
                 email = values["-EMAIL-"]
                 userpw = hashlib.sha1(
-                        values['-PASSWORD-'].encode('utf-8')).hexdigest()
+                    values['-PASSWORD-'].encode('utf-8')).hexdigest()
                 userpw = bytearray(userpw.encode())
 
-                #address details
+                # address details
                 line1 = values["-LINE1ADDRESS-"]
                 line2 = values["-LINE2ADDRESS-"]
                 city = values["-CITY-"]
                 country = values["-COUNTRY-"]
-
 
                 # boolean values of check boxes
                 savings_account = values["-CHECKBOX_SAVING-"]
@@ -109,16 +109,15 @@ def signup():
                       city, country, savings_account, checking_account_usd,
                       checking_account_hkd)
 
-                #if all data is entered
-                if firstName!="" and lastName !="" and email!="" and \
-                        userpw!="" \
-                        and line1!="" and city!="" and country!="" and (\
-                                checking_account_usd or checking_account_hkd
-                                or savings_account) and identityProof!=None \
-                        and addressProof!=None:
+                # if all data is entered
+                if firstName != "" and lastName != "" and email != "" and \
+                        userpw != "" \
+                        and line1 != "" and city != "" and country != "" and (
+                            checking_account_usd or checking_account_hkd
+                                or savings_account) and identityProof != None \
+                        and addressProof != None:
                     print("data entered")
                 else:
                     sg.popup("Not all fields were filled in. Please check.")
             except:
                 sg.popup("Issue with file upload. Please try again.")
-

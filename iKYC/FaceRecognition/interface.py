@@ -37,7 +37,8 @@ class Session:
                                         background_color='White',
                                         key="-ACCOUNTTAB-"),
                                  sg.Tab('Transactions',
-                                        transactionPage.getTransactionLayout(),
+                                        transactionPage.getTransactionLayout(
+                                            self.conn, self.userID),
                                         title_color='Black',
                                         background_color='White',
                                         key="-TRANSACTIONSTAB-"),

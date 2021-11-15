@@ -1,6 +1,7 @@
 from DEFINE import *
 import PySimpleGUI as sg
 from datetime import datetime
+import database as db
 
 
 def getAccountList():
@@ -61,7 +62,9 @@ def getTableValues():
     return values
 
 
-def getTransactionLayout():
+def getTransactionLayout(conn, userID):
+    accountList = db.getCustomerAccount(conn, userID)
+    print(accountList)
     searchFrame = [sg.Frame('FILTER', [[sg.Frame('', getSearchFrame()), sg.Frame('', getSearchTimeFrame())],
                                        [buttonElement("Search", "-search-", (100, 1))]])]
 

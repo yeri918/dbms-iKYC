@@ -10,13 +10,13 @@ import database as db
 
 def main():
     # 1 Create database connection
-    # try:
-    #     myconn = db.connect()
-    #     print("database connection successful")
-    # except:
-    #     print("connection unsuccessful")
+    try:
+        myconn = db.connect()
+        print("database connection successful")
+    except:
+        print("connection unsuccessful")
 
-    # cursor = myconn.cursor()
+    cursor = myconn.cursor()
 
     # ############# EXAMPLE ###################
     # cursor.execute('USE facerecognition')
@@ -38,13 +38,7 @@ def main():
 
     ###################### DEFINE THE START WINDOW LAYOUT ######################
 
-    # layout = [[sg.Text('Face Recognition', justification='center', font='Helvetica 20')],
-    #           [sg.Text('Email '), sg.InputText(
-    #               key='-email-', do_not_clear=False)],
-    #           [sg.Text('Password : '), sg.InputText(
-    #               key='-password-', do_not_clear=False, password_char='*')]
-    #           [sg.Button(key='-login-', button_text='Log In', size=(10, 1), font='Helvetica 14')]]
-    sg.theme('Dark')
+    # sg.theme('Dark')
     layout = [
         [sg.Text('Login With Email',
                  justification='right', font='Helvetica 20')],
@@ -86,15 +80,16 @@ def main():
 
                 ####################################
                 ############# DO NOT DELETE################
-                # dbpw = db.getLoginInfo(myconn, values['-email-'])
-                # userpw = hashlib.sha1(
-                #     values['-password-'].encode('utf-8')).hexdigest()
-                # userpw = bytearray(userpw.encode())
+                dbpw = db.getLoginInfo(myconn, values['-email-'])
+                userpw = hashlib.sha1(
+                    values['-password-'].encode('utf-8')).hexdigest()
+                userpw = bytearray(userpw.encode())
 
-                # checkEmail = False
+                checkEmail = False
 
-                # if dbpw[0] == userpw:
-                #     checkEmail = True
+                if dbpw[0] == userpw:
+                    checkEmail = True
+                    customerID = db.getCustomerID(myconn, values['-email-'])
                 #######################################
                 checkEmail = True
                 if checkEmail:
@@ -120,9 +115,9 @@ def main():
     if login_Success:
         # conn = db.connect()
         conn = True
-        userID = login_ID
+        # userID = login_ID
 
-        session = Session(conn, userID)
+        session = Session(myconn, customerID)
         # session.login()
 
         win = session.getMainWindow()
@@ -135,7 +130,10 @@ def main():
                 break
             if event == '-search-':
                 print("search pressed")
-                print(values)
+                print(values['-account-'], values['-fromAmount-'],
+                      values['-toAmount-'])
+                print(values['-fromDate-'], values['-fromTime-'],
+                      values['-toTime-'], values['-toDate-'])
 
             # event if more details on accounts text clicked, take to
             # accounts tab
