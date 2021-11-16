@@ -6,12 +6,12 @@ from faces import checkFaceID
 
 def loginFaceID(email):
     # need the user's name (db query)
-    layoutForFaceID = [[sg.Text('Log In With Face ID', justification='center', font='Helvetica 20')],
+    layoutForFaceID = [[sg.Text('2Factor Authentication', justification='center', font='Helvetica 22')],
+                       [sg.Text('Log In With Face ID',
+                                justification='center', font='Helvetica 20')],
                        [sg.Image(
                            filename='image/faceidimage.png',
                            key='-faceid-')],
-                       [sg.Button(key='-trainFace-', button_text='Train',
-                                  size=(10, 1), font='Helvetica 14')],
                        [sg.Button(key='-loginFaceID-', button_text='Face ID', size=(10, 1), font='Helvetica 14')]]
 
     window = sg.Window('Login with Face ID', layoutForFaceID,

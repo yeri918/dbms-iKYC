@@ -37,6 +37,14 @@ def updateLoginHistory(conn, customer_id):
     conn.commit()
 
 
+def getLatestLoginHistory(conn, customer_id):
+    mycursor = conn.cursor()
+    query = "SELECT MAX(login_time) FROM facerecognition.Login_ WHERE customer_id = '"+str(
+        customer_id)+"' AND login_time NOT IN (SELECT MAX(login_time) FROM facerecognition.Login_);"
+    mycursor.execute(query)
+    return mycursor.fetchall()
+
+
 def getCustomerAccount(conn, customer_id):
     mycursor = conn.cursor(dictionary=True)
     query = "SELECT account_type, account_number, balance FROM Account WHERE customer_id = '" + \

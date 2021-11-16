@@ -6,10 +6,12 @@ import loginWithFaceID
 import signup
 import hashlib
 import database as db
+import smtplib as smtp
 
 
 def main():
     # 1 Create database connection
+
     try:
         myconn = db.connect()
         print("database connection successful")
