@@ -175,7 +175,7 @@ def main():
 
             if event == '-transactionPageDetails1-':
                 win.Element("-TRANSACTIONSTAB-").select()
-                win['-account-'].update(currentAccount['account_type'])
+                win['-account-'].update('Savings')
                 transactions = db.filterBySavingTrans(myconn, customerID)
                 print(transactions)
                 print("\n")

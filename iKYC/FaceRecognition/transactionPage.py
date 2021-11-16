@@ -80,7 +80,7 @@ def getTransactionLayout(conn, userID, transactionsList):
                      headings=["Type", "Account No.",
                                "Time", "Amount", "Description"],
                      auto_size_columns=False,
-                     col_widths=(9, 9, 17, 8, 25),
+                     col_widths=(7, 12, 16, 8, 25),
                      justification='left', key='-transactionTable-', size=(1000, 300), font=(DEFAULT_FONT, 15))
 
     frame = [searchFrame,

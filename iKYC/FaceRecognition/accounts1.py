@@ -6,7 +6,7 @@ from datetime import datetime
 
 def getSearchFrame():
     l1 = ['Current Account', 'Savings Account']
-    search = [[subTitleText('My Account Types: ', textSize=(20, 1))],
+    search = [[subTitleText('My Account Types: ', textSize=(20, 1), justify='left')],
               # [subTitleText('* Current Account *')],
               # [subTitleText('* Savings Account *')],
               [sg.Listbox(l1, font=('Lucida', 14), size=(70, 20))]
