@@ -12,8 +12,8 @@ def faceCapture(name):
     user_name = name
     NUM_IMGS = 400
 
-    if not os.path.exists('FaceRecognition/data/{}'.format(user_name)):
-        os.mkdir('FaceRecognition/data/{}'.format(user_name))
+    if not os.path.exists('data/{}'.format(user_name)):
+        os.mkdir('data/{}'.format(user_name))
 
     cnt = 1
     font = cv2.FONT_HERSHEY_SIMPLEX
@@ -55,7 +55,7 @@ def faceCapture(name):
         cv2.imshow('Video', frame)
         # Store the captured images in `data/Jack`
         cv2.imwrite(
-            "FaceRecognition/data/{}/{}{:03d}.jpg".format(user_name, user_name, cnt), frame)
+            "data/{}/{}{:03d}.jpg".format(user_name, user_name, cnt), frame)
         cnt += 1
 
         key = cv2.waitKey(100)

@@ -5,11 +5,11 @@ from faces import checkFaceID
 
 
 def loginFaceID(email):
-    layoutForFaceID = [[sg.Text('2Factor Authentication', justification='center', font='Helvetica 22')],
+    layoutForFaceID = [[sg.Text('2 Factor Authentication', justification='center', font='Helvetica 22')],
                        [sg.Text('Log In With Face ID',
                                 justification='center', font='Helvetica 20')],
                        [sg.Image(
-                           filename='FaceRecognition/image/faceidimage.png',
+                           filename='image/faceidimage.png',
                            key='-faceid-')],
                        [sg.Button(key='-loginFaceID-', button_text='Face ID', size=(10, 1), font='Helvetica 14')]]
 
