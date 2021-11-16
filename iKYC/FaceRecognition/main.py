@@ -6,10 +6,12 @@ import loginWithFaceID
 import signup
 import hashlib
 import database as db
+import smtplib as smtp
 
 
 def main():
     # 1 Create database connection
+
     try:
         myconn = db.connect()
         print("database connection successful")
@@ -78,7 +80,8 @@ def main():
                 if checkEmail:
                     print("successful")
                     # folder name is based on email id so need to send email id
-                    login_Success = loginWithFaceID.loginFaceID(values['-email-'])
+                    login_Success = loginWithFaceID.loginFaceID(
+                        values['-email-'])
 
                     window.Close()
 
@@ -121,7 +124,7 @@ def main():
                     values['-toDate-'] + " "+values['-toTime-'], '%d/%m/%Y %H:%M:%S')
 
                 transactions = db.filterTransactionWithType(
-                    myconn, values['-account-'], fromTime, toTime, values['-fromAmount-'], values['-toAmount-'])
+                    myconn, customerID, values['-account-'], fromTime, toTime, values['-fromAmount-'], values['-toAmount-'])
                 updateTrans = transactionPage.getTableValues(transactions)
                 win.Element('-transactionTable-').Update(values=updateTrans)
                 win['-TRANSACTIONSTAB-'].Update(visible=True)
@@ -152,12 +155,34 @@ def main():
             # transactions tab
             if event == '-MOREDETAILSTRANSACTIONS-':
                 win.Element("-TRANSACTIONSTAB-").select()
+
+                # win['-accountTransfer-'].update()
             # event if more details on transactions text clicked, take to
             # transactions tab
-            if event == '-transcationPageDetails-':
+            if event == '-transactionPageDetails-':
                 win.Element("-TRANSACTIONSTAB-").select()
-            if event == '-transcationPageDetails1-':
+                currentAccount = db.getCurrentAccount(myconn, customerID)
+                print("---------")
+                print(currentAccount)
+                print("---------")
+                print(currentAccount['account_type'])
+                win['-account-'].update(currentAccount['account_type'])
+                transactions = db.filterByCurrTrans(myconn, customerID)
+                print(transactions)
+                print("\n")
+                updateTrans = transactionPage.getTableValues(transactions)
+                win.Element('-transactionTable-').Update(values=updateTrans)
+
+            if event == '-transactionPageDetails1-':
                 win.Element("-TRANSACTIONSTAB-").select()
+                win['-account-'].update(currentAccount['account_type'])
+                transactions = db.filterBySavingTrans(myconn, customerID)
+                print(transactions)
+                print("\n")
+                updateTrans = transactionPage.getTableValues(transactions)
+                win.Element('-transactionTable-').Update(values=updateTrans)
+                # win['-accountType-'].update(savingsAccount['account_type'] +
+                #                             " "+savingsAccount['account_number'])
 
             # currency convert button event
             if event == "Convert":

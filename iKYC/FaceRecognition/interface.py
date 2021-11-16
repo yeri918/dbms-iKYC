@@ -51,8 +51,7 @@ class Session:
                                         background_color='White',
                                         tooltip='Personal details',
                                         element_justification='center'),
-                                 sg.Tab('My Accounts',
-                                        accounts1.accountsFrame(),
+                                 sg.Tab('My Accounts', self.getAccountsLayout(),
                                         title_color='Black',
                                         background_color='White',
                                         key="-ACCOUNTTAB-"),
@@ -145,8 +144,21 @@ class Session:
         return myProfileTab
 
     def getAccountsLayout(self):
-        myAccountsTab = [[titleText('Accounts')]
-                         ]
+        currentInfo = db.getCurrentAccountInfo(self.conn, self.userID)
+        savingInfo = db.getSavingsAccountInfo(self.conn, self.userID)
+        # print("---------------------")
+        # print(currentInfo, savingInfo)
+        savingAccNum = savingInfo['account_number']
+        currentAccNum = currentInfo['account_number']
+        # accNum = '1234567'
+        overdraft = currentInfo['overdraft']
+        intRate = savingInfo['interest_rate']
+        currentBalance = currentInfo['balance']
+        savingBalance = savingInfo['balance']
+        status = 'Active'
+        myAccountsTab = accounts1.accountsFrame(savingAccNum, currentAccNum,
+                                                overdraft, intRate, savingBalance, currentBalance, status)
+        # [[titleText('Accounts')]]
         return myAccountsTab
 
     # def getTransactionLayout(self):
