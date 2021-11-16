@@ -4,7 +4,7 @@ import train
 from faces import checkFaceID
 
 
-def loginFaceID():
+def loginFaceID(email):
     # need the user's name (db query)
     layoutForFaceID = [[sg.Text('Log In With Face ID', justification='center', font='Helvetica 20')],
                        [sg.Image(
@@ -24,7 +24,7 @@ def loginFaceID():
         print(event)
         if (event == '-trainFace-'):
             try:
-                face_capture.faceCapture("Pranay")
+                face_capture.faceCapture(email)
                 train.trainFace()
             except:
                 sg.Popup("Unable to train your face. Please try again.")

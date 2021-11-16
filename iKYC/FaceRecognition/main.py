@@ -77,7 +77,9 @@ def main():
                 #######################################
                 if checkEmail:
                     print("successful")
-                    login_Success = loginWithFaceID.loginFaceID()
+                    # folder name is based on email id so need to send email id
+                    login_Success = loginWithFaceID.loginFaceID(values['-email-'])
+
                     window.Close()
 
                     # while True:
