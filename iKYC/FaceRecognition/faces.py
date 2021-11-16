@@ -19,10 +19,10 @@ def checkFaceID():
     # 2 Load recognize and read label from model
     recognizer = cv2.face.LBPHFaceRecognizer_create()
     print("check 1")
-    recognizer.read("train.yml")
+    recognizer.read("FaceRecognition/train.yml")
     print("check 2")
     labels = {"person_name": 1}
-    with open("labels.pickle", "rb") as f:
+    with open("FaceRecognition/labels.pickle", "rb") as f:
         labels = pickle.load(f)
         labels = {v: k for k, v in labels.items()}
 
