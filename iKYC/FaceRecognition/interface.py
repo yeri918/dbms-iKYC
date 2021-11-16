@@ -70,15 +70,10 @@ class Session:
                                         key='-TRANSFERTAB-'),
                                  sg.Tab('Profile', self.getProfileLayout(),
                                         title_color='Black',
-                                        background_color='White'),
-                                 sg.Tab('Sign Out', self.signOut(),
-                                        title_color="Red",
-                                        background_color='White',
-                                        element_justification="right",
-                                        expand_x="right"
-                                        )],
+                                        background_color='White')
+                                 ],
                                 ],
-                               tab_location='topleft',
+                               tab_location='topcenter',
                                title_color='White',
                                tab_background_color='Black',
                                selected_title_color='White',
@@ -88,7 +83,12 @@ class Session:
                                expand_x=True),
 
 
-
+                   # sg.Tab('Sign Out', self.signOut(),
+                   #                                         title_color="Red",
+                   #                                         background_color='White',
+                   #                                         element_justification="right",
+                   #                                         expand_x="right"
+                   #                                         )
 
                    # [sg.Column([sg.Button("Close")],
                    #           element_justification="right")]],

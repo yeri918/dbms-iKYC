@@ -17,8 +17,7 @@ def main():
         print("connection unsuccessful")
 
     ###################### DEFINE THE START WINDOW LAYOUT ######################
-
-    # sg.theme('Dark')
+    sg.theme('DarkGrey2')
     layout = [
         [titleText("")],
         [sg.Text('Login With Email',
