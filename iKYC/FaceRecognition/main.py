@@ -16,26 +16,6 @@ def main():
     except:
         print("connection unsuccessful")
 
-    # cursor = myconn.cursor()
-
-    # ############# EXAMPLE ###################
-    # cursor.execute('USE facerecognition')
-    # name = cursor.execute("SELECT * FROM Customer")
-    # result = cursor.fetchall()
-    # print(type(result))
-    # print(result)
-    # ########################################
-
-    # 2 Load reconizer and read labels from model
-
-    # recognizer = cv2.face.LBPHFaceRecognizer_create()
-    # recognizer.read("train.yml")
-
-    # labels = {"person_name": 1}
-    # with open("labels.pickle", "rb") as f:
-    #     labels = pickle.load(f)
-    #     labels = {v: k for k, v in labels.items()}
-
     ###################### DEFINE THE START WINDOW LAYOUT ######################
 
     # sg.theme('Dark')
@@ -115,7 +95,7 @@ def main():
         # conn = db.connect()
         conn = True
         # userID = login_ID
-
+        db.updateLoginHistory(myconn, customerID)
         session = Session(myconn, customerID)
         # session.login()
 

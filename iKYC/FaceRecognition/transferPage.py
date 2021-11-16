@@ -42,14 +42,13 @@ def getPayee(name, account):
 
 
 def getRecentPayees(conn, userID):
+    payees = db.getRecentPayee(conn, userID)
     layout = [[titleText('Recent Payees', textSize=(30, 1))],
-              [sg.HorizontalSeparator()],
-              [getPayee('Julie Park', '123456789')],
-              [getPayee('Anishka Bhargava', '123456789')],
-              [getPayee('Pranay Periwal', '123456789')],
-              [getPayee('Ayoung Kwon', '123456789')],
-              [getPayee('Sukmin Kim', '123456789')]
-              ]
+              [sg.HorizontalSeparator()]]
+    for i in payees:
+        name = i['first_name']+' '+i['last_name']
+        layout.append([getPayee(name, i['to_account'])])
+
     return layout
 
 
