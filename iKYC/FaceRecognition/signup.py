@@ -86,6 +86,7 @@ def signup():
             window.force_focus()
 
         if event == "-SUBMITSIGNUP-":
+            print("submit signup button pressed")
             try:
                 # need to collect all the input fields
                 dob = values["-DOB-"]
@@ -95,13 +96,13 @@ def signup():
                 userpw = hashlib.sha1(
                     values['-PASSWORD-'].encode('utf-8')).hexdigest()
                 userpw = bytearray(userpw.encode())
-
+                print("check 1")
                 # address details
                 line1 = values["-LINE1ADDRESS-"]
                 line2 = values["-LINE2ADDRESS-"]
                 city = values["-CITY-"]
                 country = values["-COUNTRY-"]
-
+                print("check 2")
                 # boolean values of check boxes
                 savings_account = values["-CHECKBOX_SAVING-"]
                 checking_account_hkd = values["-CHECKBOX_CHECKING_HKD-"]
@@ -129,9 +130,9 @@ def signup():
                                 or savings_account) and identityProof != None \
                         and addressProof != None:
                     print("data entered")
-                    #you can upload data here
-
-                    #then to image recognitino screen
+                    # you can upload data here
+                    print("before train window opens")
+                    # then to image recognitino screen
                     window.close()
                     trainFaceWindow = sg.Window('Train face', trainLayout, margins=(
                         20, 40))
@@ -153,5 +154,6 @@ def signup():
                         break
                 else:
                     sg.popup("Not all fields were filled in. Please check.")
-            except:
+            except Exception as e:
+                print(e)
                 sg.popup("Issue with file upload. Please try again.")
