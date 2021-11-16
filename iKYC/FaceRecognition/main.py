@@ -150,12 +150,21 @@ def main():
             # transactions tab
             if event == '-MOREDETAILSTRANSACTIONS-':
                 win.Element("-TRANSACTIONSTAB-").select()
+
+                # win['-accountTransfer-'].update()
             # event if more details on transactions text clicked, take to
             # transactions tab
-            if event == '-transcationPageDetails-':
+            if event == '-transactionPageDetails-':
                 win.Element("-TRANSACTIONSTAB-").select()
-            if event == '-transcationPageDetails1-':
+                currentAccount = db.getCurrentAccount(myconn, customerID)
+                # win['-accountType-'].update(currentAccount['account_type'] +
+                #                             " "+currentAccount['account_number'])
+
+            if event == '-transactionPageDetails1-':
                 win.Element("-TRANSACTIONSTAB-").select()
+                savingsAccount = db.getSavingsAccount(myconn, customerID)
+                # win['-accountType-'].update(savingsAccount['account_type'] +
+                #                             " "+savingsAccount['account_number'])
 
             # currency convert button event
             if event == "Convert":

@@ -18,7 +18,7 @@ def homeTabStuff(name, loginTime, accounts, transactions, loginHistory):
         sg.Table(values=accounts[:][:], headings=[
             "Type", "Number", "Balance"],
             max_col_width=12,
-            background_color='pink',
+
             # auto_size_columns=True,
             justification='l',
             num_rows=6,
@@ -30,7 +30,6 @@ def homeTabStuff(name, loginTime, accounts, transactions, loginHistory):
         [sg.Text("More Details", font=("Lucida",
                                        11,
                                        "underline"),
-                 text_color="Blue",
                  enable_events=True,
                  key="-MOREDETAILSACCOUNTS-")]
     ]
@@ -41,7 +40,7 @@ def homeTabStuff(name, loginTime, accounts, transactions, loginHistory):
             sg.Table(values=transactions[:][:], headings=[
                 "Type", "Date", "Amount (HKD)"],
                 max_col_width=25,
-                background_color='light blue',
+
                 auto_size_columns=True,
                 justification='c',
                 num_rows=9,
@@ -53,7 +52,6 @@ def homeTabStuff(name, loginTime, accounts, transactions, loginHistory):
             sg.Text("More Details", font=("Lucida",
                                           11,
                                           "underline"),
-                    text_color="Blue",
                     enable_events=True,
                     key="-MOREDETAILSTRANSACTIONS-")]
 

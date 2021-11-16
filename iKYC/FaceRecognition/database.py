@@ -62,6 +62,29 @@ def getLoginHistory(conn, customer_id):
     mycursor.execute(query)
     return mycursor.fetchall()
 
+
+def getCurrentAccount(conn, customer_id):
+    mycursor = conn.cursor(dictionary=True)
+    query = "SELECT account_type, account_number FROM Account WHERE customer_id='" + \
+        str(customer_id)+"' and account_type='Current';"
+    mycursor.execute(query)
+    return mycursor.fetchall()
+
+
+def getSavingsAccount(conn, customer_id):
+    mycursor = conn.cursor(dictionary=True)
+    query = "SELECT account_type, account_number FROM Account WHERE customer_id='" + \
+        str(customer_id)+"' and account_type='Savings';"
+    mycursor.execute(query)
+    return mycursor.fetchall()
+
+
+def getCurrentAccountInfo(conn, customer_id):
+    mycursor = conn.cursor(dictionary=True)
+    query = "SELECT C.account_number, C.overdraft, A.balance FROM CurrentAccount C, Account A WHERE C.account_number = A.account_number AND A.customer_id = '" + \
+        str(customer_id)+"'"
+    mycursor.execute(query)
+    return mycursor.fetchall()
 #######################################
 # TRANSACTION PAGE #
 ######################################
