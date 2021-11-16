@@ -5,7 +5,6 @@ from faces import checkFaceID
 
 
 def loginFaceID(email):
-    # need the user's name (db query)
     layoutForFaceID = [[sg.Text('2Factor Authentication', justification='center', font='Helvetica 22')],
                        [sg.Text('Log In With Face ID',
                                 justification='center', font='Helvetica 20')],
