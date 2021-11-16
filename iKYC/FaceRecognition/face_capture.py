@@ -2,7 +2,7 @@ import cv2
 import os
 
 
-def faceCapture(name="Pranay"):
+def faceCapture(name):
     faceCascade = cv2.CascadeClassifier(
         cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
 
@@ -12,8 +12,8 @@ def faceCapture(name="Pranay"):
     user_name = name
     NUM_IMGS = 400
 
-    if not os.path.exists('data/{}'.format(user_name)):
-        os.mkdir('data/{}'.format(user_name))
+    if not os.path.exists('FaceRecognition/data/{}'.format(user_name)):
+        os.mkdir('FaceRecognition/data/{}'.format(user_name))
 
     cnt = 1
     font = cv2.FONT_HERSHEY_SIMPLEX

@@ -16,7 +16,7 @@ def main():
     except:
         print("connection unsuccessful")
 
-    cursor = myconn.cursor()
+    # cursor = myconn.cursor()
 
     # ############# EXAMPLE ###################
     # cursor.execute('USE facerecognition')

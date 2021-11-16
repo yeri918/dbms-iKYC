@@ -1,3 +1,4 @@
+from time import sleep
 import PySimpleGUI as sg
 import face_capture
 import train
@@ -11,6 +12,15 @@ def signup():
     #
     # Right_Column = [[sg.Button('Forgot email')],
     #                 [sg.Button('Forgot password')]]
+
+    trainLayout = [
+
+        [sg.Text("Train your face for facial recognition\n to secure your "
+                 "account")],
+        [sg.Button("Train", key="-TRAINFACEBUTTON-")],
+        [sg.Text("", key="-DONETRAININGTEXT-", text_color="red")]
+
+    ]
 
     addressLayout = [[sg.Text('Line 1: '), sg.InputText(
         key='-LINE1ADDRESS-', )],
@@ -98,12 +108,14 @@ def signup():
                 checking_account_usd = values["-CHECKBOX_CHECKING_USD-"]
 
                 # converting address proof file to blob
-                with open(values["-ADDRESSPROOF-"], 'rb') as f:
-                    addressProof = base64.b64encode(f.read())
+                if values["-ADDRESSPROOF-"] != "":
+                    with open(values["-ADDRESSPROOF-"], 'rb') as f:
+                        addressProof = base64.b64encode(f.read())
 
-                # converting identity proof file to blob
-                with open(values["-IDENTITYPROOF-"], 'rb') as f:
-                    identityProof = base64.b64encode(f.read())
+                if values["-IDENTITYPROOF-"] != "":
+                    # converting identity proof file to blob
+                    with open(values["-IDENTITYPROOF-"], 'rb') as f:
+                        identityProof = base64.b64encode(f.read())
 
                 print(firstName, lastName, dob, email, userpw, line1, line2,
                       city, country, savings_account, checking_account_usd,
@@ -117,6 +129,28 @@ def signup():
                                 or savings_account) and identityProof != None \
                         and addressProof != None:
                     print("data entered")
+                    #you can upload data here
+
+                    #then to image recognitino screen
+                    window.close()
+                    trainFaceWindow = sg.Window('Train face', trainLayout, margins=(
+                        20, 40))
+                    event, values = trainFaceWindow.read()
+                    if event == "-TRAINFACEBUTTON-":
+                        try:
+                            face_capture.faceCapture(firstName)
+                            train.trainFace()
+                            trainFaceWindow["-DONETRAININGTEXT-"].update(
+                                "Training done! You may close the window "
+                                "and sign in or\n "
+                                "train again if you wish.")
+
+                        except:
+                            sg.Popup(
+                                "Unable to train your face. Please try again.")
+
+                    if event == "EXIT" or event == sg.WIN_CLOSED:
+                        break
                 else:
                     sg.popup("Not all fields were filled in. Please check.")
             except:
