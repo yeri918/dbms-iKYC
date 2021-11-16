@@ -163,14 +163,22 @@ def main():
                 print("---------")
                 print(currentAccount)
                 print("---------")
-                print(currentAccount['account_type'] +
-                      " "+currentAccount['account_number'])
-                # win['-accountType-'].update(currentAccount['account_type'] +
-                #                             " "+currentAccount['account_number'])
+                print(currentAccount['account_type'])
+                win['-account-'].update(currentAccount['account_type'])
+                transactions = db.filterByCurrTrans(myconn, customerID)
+                print(transactions)
+                print("\n")
+                updateTrans = transactionPage.getTableValues(transactions)
+                win.Element('-transactionTable-').Update(values=updateTrans)
 
             if event == '-transactionPageDetails1-':
                 win.Element("-TRANSACTIONSTAB-").select()
-                savingsAccount = db.getSavingsAccount(myconn, customerID)
+                win['-account-'].update(currentAccount['account_type'])
+                transactions = db.filterBySavingTrans(myconn, customerID)
+                print(transactions)
+                print("\n")
+                updateTrans = transactionPage.getTableValues(transactions)
+                win.Element('-transactionTable-').Update(values=updateTrans)
                 # win['-accountType-'].update(savingsAccount['account_type'] +
                 #                             " "+savingsAccount['account_number'])
 
