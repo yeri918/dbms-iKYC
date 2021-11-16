@@ -60,8 +60,8 @@ def getTransferLayout(conn, userID):
 
 
 def convertToHKD(value, currency):
-    print(value, currency)
+    # print(value, currency)
     c = CurrencyRates()
     rate = c.get_rate(currency, 'HKD')
-    print(rate)
+    # print(rate)
     return int(value)*rate

@@ -1,4 +1,6 @@
 import PySimpleGUI as sg
+import database as db
+from datetime import datetime
 
 
 def homeTabStuff(name, loginTime, accounts, transactions, loginHistory):
@@ -11,49 +13,49 @@ def homeTabStuff(name, loginTime, accounts, transactions, loginHistory):
 
     yourAccountsLayout = [[sg.Text('Your Accounts:', size=(
         30, 1), font='Lucida', justification='left')],
-                          [
+        [
 
-                              sg.Table(values=accounts[:][:], headings=[
-                                  "Type", "Number", "Balance"],
-                                       max_col_width=12,
-                                       background_color='pink',
-                                       # auto_size_columns=True,
-                                       justification='l',
-                                       num_rows=6,
-                                       key='-TABLEOFACCOUNTS-',
-                                       row_height=15,
-                                       tooltip='This is a table of '
-                                               'accounts')
-                          ],
-                          [sg.Text("More Details", font=("Lucida",
-                                                                    11,
-                                                         "underline"),
-                                   text_color="Blue",
-                                   enable_events=True,
-                                   key="-MOREDETAILSACCOUNTS-")]
-                          ]
+        sg.Table(values=accounts[:][:], headings=[
+            "Type", "Number", "Balance"],
+            max_col_width=12,
+            background_color='pink',
+            # auto_size_columns=True,
+            justification='l',
+            num_rows=6,
+            key='-TABLEOFACCOUNTS-',
+            row_height=15,
+            tooltip='This is a table of '
+            'accounts')
+    ],
+        [sg.Text("More Details", font=("Lucida",
+                                       11,
+                                       "underline"),
+                 text_color="Blue",
+                 enable_events=True,
+                 key="-MOREDETAILSACCOUNTS-")]
+    ]
     yourTransactionsLayout = [
         [sg.Text('Your Transactions:', size=(
             30, 1), font='Lucida', justification='left')],
         [
             sg.Table(values=transactions[:][:], headings=[
                 "Type", "Date", "Amount (HKD)"],
-                     max_col_width=25,
-                     background_color='light blue',
-                     auto_size_columns=True,
-                     justification='c',
-                     num_rows=9,
-                     key='-TABLEOFTRANSACTIONS-',
-                     row_height=15,
-                     tooltip='This is a table of '
-                             'transactions')
-        ],[
+                max_col_width=25,
+                background_color='light blue',
+                auto_size_columns=True,
+                justification='c',
+                num_rows=9,
+                key='-TABLEOFTRANSACTIONS-',
+                row_height=15,
+                tooltip='This is a table of '
+                'transactions')
+        ], [
             sg.Text("More Details", font=("Lucida",
-                                                       11,
-                                                       "underline"),
-                     text_color="Blue",
-                     enable_events=True,
-                     key="-MOREDETAILSTRANSACTIONS-")]
+                                          11,
+                                          "underline"),
+                    text_color="Blue",
+                    enable_events=True,
+                    key="-MOREDETAILSTRANSACTIONS-")]
 
 
     ]
@@ -96,6 +98,39 @@ def homeTabStuff(name, loginTime, accounts, transactions, loginHistory):
     ]]
     layout = [[sg.Column(welcomeLayout, expand_x=True,
                          element_justification="c")], [sg.Column(
-        mainPanelLayout, expand_y=True)]]
+                             mainPanelLayout, expand_y=True)]]
 
     return layout
+
+
+def getAccountsInfo(conn, userID):
+    accounts = db.getCustomerAccount(conn, userID)
+    accountsList = []
+    for i in accounts:
+        oneAccount = (i['account_type'], i['account_number'], i['balance'])
+        accountsList.append(oneAccount)
+    return accountsList
+
+
+def getTransactionsInfo(conn, userID):
+    transactions = db.getTransactionHome(conn, userID)
+    print(transactions)
+    transactionList = []
+    print("TRANSACTIONS INFO")
+    for i in transactions:
+        date_time = i['transaction_time'].strftime("%m/%d/%Y %H:%M:%S")
+        oneTransaction = (i['transaction_type'],
+                          date_time, i['transaction_amount'])
+        transactionList.append(oneTransaction)
+    return transactionList
+
+
+def getLoginHistory(conn, userID):
+    logins = db.getLoginHistory(conn, userID)
+    print(logins)
+    loginsList = []
+    for i in logins:
+        print(i['login_time'])
+        date_time = i['login_time'].strftime("%m/%d/%Y %H:%M:%S")
+        loginsList.append(date_time)
+    return loginsList

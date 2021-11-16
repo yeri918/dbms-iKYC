@@ -33,14 +33,53 @@ def getCustomerID(conn, email):
     return mycursor.fetchone()[0]
 
 
+def getCustomerAccount(conn, customer_id):
+    mycursor = conn.cursor(dictionary=True)
+    query = "SELECT account_type, account_number, balance FROM Account WHERE customer_id = '" + \
+        str(customer_id)+"' LIMIT 5"
+    mycursor.execute(query)
+    return mycursor.fetchall()
+
+
+def getTransactionHome(conn, customer_id):
+    mycursor = conn.cursor(dictionary=True)
+    query = "SELECT T.transaction_type, T.transaction_time, T.transaction_amount FROM Transaction_ T WHERE T.account_number IN (SELECT A.account_number FROM Account A WHERE customer_id = " + \
+        str(customer_id)+") LIMIT 5;"
+    mycursor.execute(query)
+    return mycursor.fetchall()
+
+
+def getLoginHistory(conn, customer_id):
+
+    mycursor = conn.cursor(dictionary=True)
+    query = "SELECT login_time FROM Login_ WHERE customer_id = '" + \
+        str(customer_id)+"' AND login_id NOT IN (SELECT MIN(login_id) FROM Login_  WHERE customer_id = '" + \
+        str(customer_id)+"') ORDER BY login_id DESC LIMIT 10"
+    mycursor.execute(query)
+    return mycursor.fetchall()
+
 #######################################
 # TRANSACTION PAGE #
 ######################################
+
+
+def getCustomerName(conn, customer_id):
+    mycursor = conn.cursor(dictionary=True)
+    query = "SELECT first_name, last_name FROM Customer WHERE customer_id = '" + \
+        str(customer_id)+"'"
+    mycursor.execute(query)
+    return mycursor.fetchall()[0]
+
+#######################################
+# TRANSACTION PAGE #
+######################################
+
+
 def getCustomerAccountList(conn, customer_id):
     mycursor = conn.cursor(dictionary=True)
     query = "SELECT account_type FROM Account WHERE customer_id = '" + \
         str(customer_id)+"'"
-    print(query)
+    # print(query)
     mycursor.execute(query)
     return mycursor.fetchall()
 
@@ -50,7 +89,7 @@ def getTransactionHistory(conn, customer_id):
     query = "SELECT T.transaction_type, T.account_number, T.transaction_time, T.transaction_amount, T.transaction_description FROM Transaction_ T WHERE T.account_number IN (SELECT A.account_number FROM Account A WHERE customer_id = " + \
         str(customer_id)+") LIMIT 10;"
     mycursor.execute(query)
-    print(query)
+    # print(query)
     return mycursor.fetchall()
 
 
@@ -72,10 +111,6 @@ def filterTransactionWithType(conn, account_number, time_from, time_to, amount_f
     return mycursor.fetchall()
 
 #######################################
-# TRANSACTION PAGE #
-#######################################
-
-#######################################
 # TRANSFER PAGE #
 #######################################
 
@@ -84,7 +119,7 @@ def addTransactionSuccess(conn, account_number, transaction_amount, transaction_
     now = datetime.now()
     dt_string = now.strftime("%m/%d/%Y %H:%M:%S")
     if not transaction_description:
-        print("hi")
+        # print("hi")
         transaction_description = "No remarks"
     try:
         mycursor = conn.cursor(dictionary=True)
@@ -96,6 +131,14 @@ def addTransactionSuccess(conn, account_number, transaction_amount, transaction_
     except Exception as e:
         print(e)
         return False
+    try:
+        query = "UPDATE Account SET balance = balance -" + \
+            str(transaction_amount) + "WHERE account_number = '" + \
+            str(account_number)+"'"
+        mycursor.execute(query)
+        conn.commit()
+    except Exception as e:
+        return False
     return True
 
 
@@ -105,3 +148,14 @@ def getAllAccountNumberOfCustomer(conn, customer_id):
         str(customer_id)+"'"
     mycursor.execute(query)
     return mycursor.fetchall()
+
+#######################################
+# PROFILE PAGE #
+#######################################
+
+
+def getProfileInfo(conn, customer_id):
+    mycursor = conn.cursor(dictionary=True)
+    query = "SELECT * FROM Customer WHERE customer_id = '"+str(customer_id)+"'"
+    mycursor.execute(query)
+    return mycursor.fetchall()[0]

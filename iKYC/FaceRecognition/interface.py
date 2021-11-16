@@ -1,8 +1,9 @@
 from DEFINE import *
 import PySimpleGUI as sg
-from home import homeTabStuff
+from home import homeTabStuff, getAccountsInfo, getTransactionsInfo, getLoginHistory
 from datetime import datetime
 import database as db
+import home
 
 
 import transactionPage
@@ -36,7 +37,6 @@ class Session:
 
     def getTransactionsFromDB(self):
         transaction = db.getTransactionHistory(self.conn, self.userID)
-        print("From getTransactionsFromDB", transaction)
         values = []
         for i in transaction:
             date_time = i['transaction_time'].strftime("%m/%d/%Y %H:%M:%S")
@@ -96,18 +96,21 @@ class Session:
         return layout
 
     def getHomeLayout(self):
-        name = "Jane Doe"
-        accounts = [("Savings", "903838203", 830323), ("Current Account (HKD)",
-                                                       "3280223", 11000),
-                    ("Current Account (USD)", "82324803", 12801.3)]
-
-        transactions = [("Withdrawal", "2021-10-10 23:18:24", "123.83"),
-                        ("Withdrawal", "2021-10-10 23:18:24", "111.0"),
-                        ("Deposit", "2021-10-10 23:18:24", "10000.0"),
-                        ("Deposit", "2021-10-10 23:18:24", "2000.0")
-                        ]
-        loginHistory = ["2021-10-09 19:20:19", "2021-10-09 19:20:19",
-                        "2021-10-09 19:20:19"]
+        name = db.getCustomerName(self.conn, self.userID)
+        name = name['first_name']+" "+name['last_name']
+        accounts = home.getAccountsInfo(self.conn, self.userID)
+        # accounts = [("Savings", "903838203", 830323), ("Current Account (HKD)",
+        #                                                "3280223", 11000),
+        #             ("Current Account (USD)", "82324803", 12801.3)]
+        transactions = getTransactionsInfo(self.conn, self.userID)
+        # transactions = [("Withdrawal", "2021-10-10 23:18:24", "123.83"),
+        #                 ("Withdrawal", "2021-10-10 23:18:24", "111.0"),
+        #                 ("Deposit", "2021-10-10 23:18:24", "10000.0"),
+        #                 ("Deposit", "2021-10-10 23:18:24", "2000.0")
+        #                 ]
+        loginHistory = getLoginHistory(self.conn, self.userID)
+        # loginHistory = ["2021-10-09 19:20:19", "2021-10-09 19:20:19",
+        #                 "2021-10-09 19:20:19"]
 
         formattedAccounts = []
         for i in accounts:
@@ -119,29 +122,25 @@ class Session:
                                                   transaction[1].split(" ")[0],
                                                   transaction[2]])
 
-        formattedLoginHistory = []
-        for i in loginHistory:
-            formattedLoginHistory.append(datetime.strptime(i, "%Y-%m-%d "
-                                                              "%H:%M:%S").strftime(
-                "%d/%m/%Y %H:%M:%S"))
-
         currentLoginTime = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
 
         homeTab = homeTabStuff(name=name, loginTime=currentLoginTime,
                                accounts=formattedAccounts,
                                transactions=formattedAccountsTransactions,
-                               loginHistory=formattedLoginHistory)
+                               loginHistory=loginHistory)
 
         return homeTab
 
     def getProfileLayout(self):
-        name = "Jane Doe"
-        dob = "2021-10-10"
-        address = "9 lung wah st"
-        email = "thisisemail@email.com"
-        phoneNumber = "456789123"
-        myProfileTab = profile.frameRight(name, dob, phoneNumber, email,
-                                          address)
+        userInfo = db.getProfileInfo(self.conn, self.userID)
+        print(userInfo)
+        name = userInfo['first_name']+" "+userInfo['last_name']
+        dob = userInfo['date_of_birth'].strftime("%d/%m/%Y %H:%M:%S")
+        address = userInfo['address']
+        email = userInfo['email']
+        phoneNumber = userInfo['phone_number']
+        myProfileTab = profile.frameRight(
+            name, dob, phoneNumber, email, address)
 
         return myProfileTab
 
@@ -150,32 +149,15 @@ class Session:
                          ]
         return myAccountsTab
 
-    # def getTransactionListFrame(self):
-    #     # get the account info from db
-    #     accounts = {1: {'Title': 'Savings', 'amount': 1235, 'currency': 'HKD'}}
-    #     frame_layout = []
-    #     for account in accounts:
-    #         accountInfo = []
-    #         for info in account:
-    #             if info == 'Title':
-    #                 accountInfo.append[titleText(account[info])]
-    #             else:
-    #                 accountInfo.append[subTitleText(
-    #                     info), subTitleText(account[info])]
-    #         frame_layout.append(accountInfo)
+    # def getTransactionLayout(self):
+    #     transactionsTab = [
+    #         [subTitleText('Account'), subTitleText(
+    #             'From'), subTitleText('Min. Amount')],
+    #         [comboElement(['Account 1', 'Account2'], '-account-'),
+    #          subTitleText('To'), subTitleText('Max. Amount')],
+    #         [buttonElement('Search', '-search-')]]
 
-    #     frame = sg.Frame('Accounts', frame_layout)
-    #     return frame
-
-    def getTransactionLayout(self):
-        transactionsTab = [
-            [subTitleText('Account'), subTitleText(
-                'From'), subTitleText('Min. Amount')],
-            [comboElement(['Account 1', 'Account2'], '-account-'),
-             subTitleText('To'), subTitleText('Max. Amount')],
-            [buttonElement('Search', '-search-')]]
-
-        return transactionsTab
+    #     return transactionsTab
 
     # def getProfileLayout(self):
     #     profileTab = [[subTitleText('Name')]]
