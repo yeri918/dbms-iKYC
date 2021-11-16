@@ -84,7 +84,15 @@ def getCurrentAccountInfo(conn, customer_id):
     query = "SELECT C.account_number, C.overdraft, A.balance FROM CurrentAccount C, Account A WHERE C.account_number = A.account_number AND A.customer_id = '" + \
         str(customer_id)+"'"
     mycursor.execute(query)
-    return mycursor.fetchall()
+    return mycursor.fetchall()[0]
+
+
+def getSavingsAccountInfo(conn, customer_id):
+    mycursor = conn.cursor(dictionary=True)
+    query = "SELECT S.account_number, A.balance, S.interest_rate FROM SavingAccount S, Account A WHERE S.account_number = A.account_number AND A.customer_id ='" + \
+        str(customer_id)+"'"
+    mycursor.execute(query)
+    return mycursor.fetchall()[0]
 #######################################
 # TRANSACTION PAGE #
 ######################################
@@ -127,13 +135,22 @@ def getmaxtransaction(conn, customer_id):
     return mycursor.fetchall()[0]['MAX(T.transaction_amount)']
 
 
-def filterTransactionWithType(conn, account_number, time_from, time_to, amount_from, amount_to):
+def filterTransactionWithType(conn, userID, account_type, time_from, time_to, amount_from, amount_to):
     mycursor = conn.cursor(dictionary=True)
-    query = "SELECT transaction_type, account_number, transaction_time, transaction_amount, transaction_description FROM Transaction_ WHERE"
-    if account_number != 'All':
-        query += " account_number = '"+str(account_number)+"' AND "
-    query += " transaction_time > '"+str(time_from)+"' AND transaction_time < '"+str(
-        time_to) + "' AND transaction_amount > '"+str(amount_from)+"' AND transaction_amount < '"+str(amount_to) + "'"
+#     SELECT T.transaction_type, A.account_number, T.transaction_time, T.transaction_amount, T.transaction_description FROM Transaction_ T, Account A WHERE A.account_number=T.account_number
+# AND A.account_type = 'Current' AND A.customer_id = '1'
+# AND T.transaction_time > '2021-11-16 00:00:00' AND T.transaction_time < '2021-11-16 22:25:21' AND T.transaction_amount > '0' AND T.transaction_amount < '50.0'
+    query = "SELECT T.transaction_type, A.account_number, T.transaction_time, T.transaction_amount, T.transaction_description FROM Transaction_ T, Account A WHERE A.account_number=T.account_number AND A.customer_id = '" + \
+            str(userID)+"' "
+    if account_type != 'All':
+        query += " AND A.account_type = '"+str(account_type)+"'"
+
+    query += " AND T.transaction_time > '"+str(time_from)+"' AND T.transaction_time < '"+str(
+        time_to) + "' AND T.transaction_amount > '"+str(amount_from)+"' AND T.transaction_amount < '"+str(amount_to) + "'"
+    print("\n")
+    print(query)
+    print("\n")
+
     mycursor.execute(query)
     return mycursor.fetchall()
 

@@ -17,10 +17,12 @@ def getSearchFrame():
 
 def currentgetinfo(accNum, overdraft, balance, status):
     layout1 = [[subTitleText2("")],
-               [subTitleText2('Account Number: ' + accNum, justify='left')],
+               [subTitleText2('Account Number: ' + accNum,
+                              justify='left', textSize=(50, 1))],
                [subTitleText2('Currency: HKD', justify='left')],
-               [subTitleText2('Overdraft Fee: '+overdraft, justify='left')],
-               [subTitleText2('Account Balance: HKD'+balance,
+               [subTitleText2('Overdraft Fee: ' +
+                              str(overdraft), justify='left')],
+               [subTitleText2('Account Balance: HKD'+str(balance),
                               justify='right', textSize=(50, 1))],
                [subTitleText2('Account Status: '+status,
                               justify='right', textSize=(50, 1))],
@@ -36,10 +38,12 @@ def currentgetinfo(accNum, overdraft, balance, status):
 
 def savinggetinfo(accNum, intRate, balance, status):
     layout1 = [[subTitleText2("")],
-               [subTitleText2('Account Number: '+accNum, justify='left')],
+               [subTitleText2('Account Number: '+accNum,
+                              justify='left', textSize=(50, 1))],
                [subTitleText2('Currency: HKD', justify='left')],
-               [subTitleText2('Interest Rate: '+intRate+"%", justify='left')],
-               [subTitleText2('Account Balance: HKD'+balance,
+               [subTitleText2('Interest Rate: '+str(intRate) +
+                              "%", justify='left')],
+               [subTitleText2('Account Balance: HKD'+str(balance),
                               justify='right', textSize=(50, 1))],
                [subTitleText2('Account Status: '+status,
                               justify='right', textSize=(50, 1))],
@@ -52,7 +56,7 @@ def savinggetinfo(accNum, intRate, balance, status):
     return layout1
 
 
-def accountsFrame(accNum, overdraft, intRate, balance, status):
+def accountsFrame(savingAccNum, currentAccNum, overdraft, intRate, savingBalance, currentBalance, status):
     test1 = [[titleText('Account 1'), subTitleText('subtext')]]
     searchFrame = [
         sg.Frame('Accounts', getSearchFrame(), font=("Lucida", 18), size=(650, 120))]
@@ -61,8 +65,8 @@ def accountsFrame(accNum, overdraft, intRate, balance, status):
     # [sg.Column(layout_column, element_justification='right', expand_x=True)],
     frame = [searchFrame,
              [titleText("Accounts", justify='center', textColor='Orange')],
-             [sg.Frame('Current Account', currentgetinfo(accNum, overdraft, balance, status), font=("Lucida", 20), size=(340, 400)), sg.Frame(
-                 'Savings Account', savinggetinfo(accNum, intRate, balance, status), font=("Lucida", 20), size=(340, 400))],
+             [sg.Frame('Current Account', currentgetinfo(currentAccNum, overdraft, currentBalance, status), font=("Lucida", 20), size=(340, 400)), sg.Frame(
+                 'Savings Account', savinggetinfo(savingAccNum, intRate, savingBalance, status), font=("Lucida", 20), size=(340, 400))],
              ]
 
     accTab = [[sg.Column(frame)]]

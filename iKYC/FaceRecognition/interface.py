@@ -144,16 +144,20 @@ class Session:
         return myProfileTab
 
     def getAccountsLayout(self):
-        accountInfo = db.getCurrentAccountInfo(self.conn, self.userID)
-        print("---------------------")
-        print(accountInfo)
-        accNum = '1234567'
-        overdraft = '32'
-        intRate = '4'
-        balance = '99999'
+        currentInfo = db.getCurrentAccountInfo(self.conn, self.userID)
+        savingInfo = db.getSavingsAccountInfo(self.conn, self.userID)
+        # print("---------------------")
+        # print(currentInfo, savingInfo)
+        savingAccNum = savingInfo['account_number']
+        currentAccNum = currentInfo['account_number']
+        # accNum = '1234567'
+        overdraft = currentInfo['overdraft']
+        intRate = savingInfo['interest_rate']
+        currentBalance = currentInfo['balance']
+        savingBalance = savingInfo['balance']
         status = 'Active'
-        myAccountsTab = accounts1.accountsFrame(
-            accNum, overdraft, intRate, balance, status)
+        myAccountsTab = accounts1.accountsFrame(savingAccNum, currentAccNum,
+                                                overdraft, intRate, savingBalance, currentBalance, status)
         # [[titleText('Accounts')]]
         return myAccountsTab
 

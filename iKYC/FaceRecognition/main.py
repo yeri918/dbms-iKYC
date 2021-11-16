@@ -78,7 +78,8 @@ def main():
                 if checkEmail:
                     print("successful")
                     # folder name is based on email id so need to send email id
-                    login_Success = loginWithFaceID.loginFaceID(values['-email-'])
+                    login_Success = loginWithFaceID.loginFaceID(
+                        values['-email-'])
 
                     window.Close()
 
@@ -121,7 +122,7 @@ def main():
                     values['-toDate-'] + " "+values['-toTime-'], '%d/%m/%Y %H:%M:%S')
 
                 transactions = db.filterTransactionWithType(
-                    myconn, values['-account-'], fromTime, toTime, values['-fromAmount-'], values['-toAmount-'])
+                    myconn, customerID, values['-account-'], fromTime, toTime, values['-fromAmount-'], values['-toAmount-'])
                 updateTrans = transactionPage.getTableValues(transactions)
                 win.Element('-transactionTable-').Update(values=updateTrans)
                 win['-TRANSACTIONSTAB-'].Update(visible=True)
@@ -159,6 +160,11 @@ def main():
             if event == '-transactionPageDetails-':
                 win.Element("-TRANSACTIONSTAB-").select()
                 currentAccount = db.getCurrentAccount(myconn, customerID)
+                print("---------")
+                print(currentAccount)
+                print("---------")
+                print(currentAccount['account_type'] +
+                      " "+currentAccount['account_number'])
                 # win['-accountType-'].update(currentAccount['account_type'] +
                 #                             " "+currentAccount['account_number'])
 
