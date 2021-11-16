@@ -10,10 +10,6 @@ def connect():
 
 
 def getLoginInfo(conn, email):
-    # '''
-    # password is in SHA1() hash-value
-    # https://stackoverflow.com/questions/614476/storing-sha1-hash-values-in-mysql
-    # '''
     mycursor = conn.cursor()
     query = 'SELECT password_ FROM Customer WHERE email="' + str(email)+'"'
     print(query)
@@ -31,6 +27,14 @@ def getCustomerID(conn, email):
     mycursor.execute(query)
 
     return mycursor.fetchone()[0]
+
+
+def updateLoginHistory(conn, customer_id):
+    mycursor = conn.cursor()
+    query = "INSERT INTO Login_ (customer_id, login_time) VALUES ('" + \
+        str(customer_id)+"', NOW())"
+    mycursor.execute(query)
+    conn.commit()
 
 
 def getCustomerAccount(conn, customer_id):
@@ -146,6 +150,15 @@ def getAllAccountNumberOfCustomer(conn, customer_id):
     mycursor = conn.cursor(dictionary=True)
     query = "SELECT account_number, account_type FROM Account WHERE customer_id = '" + \
         str(customer_id)+"'"
+    mycursor.execute(query)
+    return mycursor.fetchall()
+
+
+def getRecentPayee(conn, customer_id):
+    mycursor = conn.cursor(dictionary=True)
+    query = "SELECT T2.to_account, C.first_name, C.last_name FROM (SELECT Tr.to_account FROM Transfer_ Tr, Transaction_ T, Account A, Customer C WHERE Tr.transaction_id = T.transaction_id AND T.account_number = A.account_number AND A.customer_id = C.customer_id AND T.transaction_type = 'transfer' AND C.customer_id = '"+str(
+        customer_id)+"') T2, Customer C, Account A WHERE C.customer_id = A.customer_id AND A.account_number = T2.to_account "
+    print(query)
     mycursor.execute(query)
     return mycursor.fetchall()
 

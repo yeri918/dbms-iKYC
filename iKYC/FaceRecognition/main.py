@@ -16,48 +16,32 @@ def main():
     except:
         print("connection unsuccessful")
 
-    # cursor = myconn.cursor()
-
-    # ############# EXAMPLE ###################
-    # cursor.execute('USE facerecognition')
-    # name = cursor.execute("SELECT * FROM Customer")
-    # result = cursor.fetchall()
-    # print(type(result))
-    # print(result)
-    # ########################################
-
-    # 2 Load reconizer and read labels from model
-
-    # recognizer = cv2.face.LBPHFaceRecognizer_create()
-    # recognizer.read("train.yml")
-
-    # labels = {"person_name": 1}
-    # with open("labels.pickle", "rb") as f:
-    #     labels = pickle.load(f)
-    #     labels = {v: k for k, v in labels.items()}
-
     ###################### DEFINE THE START WINDOW LAYOUT ######################
-
-    # sg.theme('Dark')
+    sg.theme('DarkGrey2')
     layout = [
+        [titleText("")],
         [sg.Text('Login With Email',
-                 justification='right', font='Helvetica 20')],
+                 justification='right', font='Helvetica 25')],
         [sg.Text('Email ', justification='center', size=(7, 1), font=(
             DEFAULT_FONT,
-            15)),
-         sg.InputText(key='-email-', do_not_clear=True, size=(25, 1))],
+            20)),
+         sg.InputText(key='-email-', do_not_clear=True, size=(25, 1), font=(DEFAULT_FONT, 15))],
         [sg.Text('Password ', justification='center', size=(7, 1),
                  font=(
             DEFAULT_FONT,
-            15)),
+            20)),
          sg.InputText(
             key='-password-', do_not_clear=True, size=(25, 1),
-             password_char='*')],
+             password_char='*', font=(DEFAULT_FONT, 15))],
         [sg.Button(key='-login-', button_text='Log In',
                    size=(10, 1), font='Helvetica 14')],
+        [titleText("")],
+        [sg.Text('Sign Up',
+                 justification='right', font='Helvetica 25')],
         [subTitleText(
             "Please sign up if you do not have an account.", textSize=(35, 1))],
-        [buttonElement("Sign Up", "-signup-")]]
+        [sg.Button(key='-signup-', button_text='Sign up',
+                   size=(10, 1), font='Helvetica 14')]]
 
     # 3 Create the window
     window = sg.Window('Log In', layout, size=DEFAULT_WINDOW_SIZE,
@@ -117,7 +101,7 @@ def main():
         # conn = db.connect()
         conn = True
         # userID = login_ID
-
+        db.updateLoginHistory(myconn, customerID)
         session = Session(myconn, customerID)
         # session.login()
 
