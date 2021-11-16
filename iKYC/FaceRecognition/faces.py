@@ -51,7 +51,7 @@ def checkFaceID():
             id_, conf = recognizer.predict(roi_gray)
 
             # 3.1 If the face is recognized
-            if conf >= 60:
+            if conf >= 56:
                 # print(id_)
                 # print(labels[id_])
                 print("Detected")
