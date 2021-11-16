@@ -51,9 +51,7 @@ def checkFaceID():
             id_, conf = recognizer.predict(roi_gray)
 
             # 3.1 If the face is recognized
-            if conf >= 56:
-                # print(id_)
-                # print(labels[id_])
+            if conf >= 60:
                 print("Detected")
                 font = cv2.QT_FONT_NORMAL
                 id = 0
