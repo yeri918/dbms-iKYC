@@ -72,13 +72,13 @@ def signup():
     while True:
         event, values = window.read()
         print('event')
-        if (event == 'Train'):
-            try:
-                face_capture.faceCapture("Yeseo")
-            except:
-                sg.Popup("Unable to train your face. Please try again.")
-
-            train.trainFace()
+        # if (event == 'Train'):
+        #     try:
+        #         face_capture.faceCapture()
+        #     except:
+        #         sg.Popup("Unable to train your face. Please try again.")
+        #
+        #     train.trainFace()
 
         if event == "EXIT" or event == sg.WIN_CLOSED:
             break
@@ -138,7 +138,7 @@ def signup():
                     event, values = trainFaceWindow.read()
                     if event == "-TRAINFACEBUTTON-":
                         try:
-                            face_capture.faceCapture(firstName)
+                            face_capture.faceCapture(email)
                             train.trainFace()
                             trainFaceWindow["-DONETRAININGTEXT-"].update(
                                 "Training done! You may close the window "
