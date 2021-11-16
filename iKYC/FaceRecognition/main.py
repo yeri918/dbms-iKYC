@@ -96,7 +96,7 @@ def main():
 
         if event == '-signup-':
 
-            signup.signup()
+            signup.signup(myconn)
 
             # window = sg.Window("Sign Up",)
 

@@ -9,7 +9,7 @@ def loginFaceID(email):
                        [sg.Text('Log In With Face ID',
                                 justification='center', font='Helvetica 20')],
                        [sg.Image(
-                           filename='image/faceidimage.png',
+                           filename='FaceRecognition/image/faceidimage.png',
                            key='-faceid-')],
                        [sg.Button(key='-loginFaceID-', button_text='Face ID', size=(10, 1), font='Helvetica 14')]]
 
