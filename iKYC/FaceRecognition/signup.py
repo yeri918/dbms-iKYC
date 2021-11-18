@@ -10,12 +10,6 @@ from random import randint, randrange
 
 
 def signup(myconn):
-    # Left_Column = [[sg.Text('To Enable FaceID'), sg.Text(' '*10)],
-    #                [sg.Button('Train')]]
-    #
-    # Right_Column = [[sg.Button('Forgot email')],
-    #                 [sg.Button('Forgot password')]]
-
     trainLayout = [
 
         [sg.Text("Train your face for facial recognition\n to secure your "
@@ -27,12 +21,12 @@ def signup(myconn):
 
     addressLayout = [[sg.Text('Line 1: '), sg.InputText(
         key='-LINE1ADDRESS-', )],
-                     [sg.Text('Line 2: '), sg.InputText(
-                         key='-LINE2ADDRESS-', )],
-                     [sg.Text('City: '), sg.InputText(
-                         key='-CITY-', )],
-                     [sg.Text('Country: '), sg.InputText(
-                         key='-COUNTRY-', )]]
+        [sg.Text('Line 2: '), sg.InputText(
+            key='-LINE2ADDRESS-', )],
+        [sg.Text('City: '), sg.InputText(
+            key='-CITY-', )],
+        [sg.Text('Country: '), sg.InputText(
+            key='-COUNTRY-', )]]
 
     layout = [[sg.Text('Last Name: '), sg.InputText(key='-LASTNAME-',
                                                     )],
@@ -73,14 +67,6 @@ def signup(myconn):
 
     while True:
         event, values = window.read()
-        print('event')
-        # if (event == 'Train'):
-        #     try:
-        #         face_capture.faceCapture()
-        #     except:
-        #         sg.Popup("Unable to train your face. Please try again.")
-        #
-        #     train.trainFace()
 
         if event == "EXIT" or event == sg.WIN_CLOSED:
             break
@@ -123,7 +109,6 @@ def signup(myconn):
                     with open(values["-IDENTITYPROOF-"], 'rb') as f:
                         identityProof = base64.b64encode(f.read())
 
-
                 print(firstName, lastName, dob, email, userpw, phone,
                       address, savings_account,
                       checking_account_hkd)
@@ -138,27 +123,27 @@ def signup(myconn):
                     print("data entered")
                     # you can upload data here
 
-                    #update customer table
+                    # update customer table
                     db.addCustomerSignup(myconn, email, userpw, lastName,
                                          firstName, dob, address, phone)
                     customer_ID = db.getCustomerID(myconn, email)
                     print(customer_ID)
 
                     if savings_account:
-                        #update saving account and account
+                        # update saving account and account
                         defaultInterestRate = 0.05
                         todaysDate = datetime.date.today().strftime("%Y-%m-%d")
 
                         db.addSavingsAccountSignup(myconn, customer_ID,
-                                          defaultInterestRate,
+                                                   defaultInterestRate,
                                                    currentDate=todaysDate,
                                                    currentDateAndTime=datetime.datetime.now())
                         print("savings done")
 
                     if checking_account_hkd:
-                        #update current account and account
+                        # update current account and account
                         todaysDate = datetime.date.today().strftime("%Y-%m-%d")
-                        db.addCurrentAccountSignup(myconn,customer_ID,
+                        db.addCurrentAccountSignup(myconn, customer_ID,
                                                    currentDate=todaysDate,
                                                    currentDateAndTime=datetime.datetime.now())
                         print("checking done")

@@ -18,10 +18,6 @@ class Session:
     def __init__(self, conn, userID):
         self.conn = conn
         self.userID = userID
-        # if transaction =="":
-        #     transaction = self.getTransactionsFromDB()
-        # self.transaction = transaction
-        # sg.theme('DarkTanBlue')
         self.transaction = self.getTransactionsFromDB()
 
     def getMainWindow(self):
@@ -79,18 +75,7 @@ class Session:
                                selected_background_color='Gray',
                                border_width=5, size=DEFAULT_WINDOW_SIZE,
                                font=("Helvetica", 15), key="-MAINTABGROUP-",
-                               expand_x=True),
-
-
-                   # sg.Tab('Sign Out', self.signOut(),
-                   #                                         title_color="Red",
-                   #                                         background_color='White',
-                   #                                         element_justification="right",
-                   #                                         expand_x="right"
-                   #                                         )
-
-                   # [sg.Column([sg.Button("Close")],
-                   #           element_justification="right")]],
+                               expand_x=True)
                    ]]
         return layout
 
@@ -98,18 +83,8 @@ class Session:
         name = db.getCustomerName(self.conn, self.userID)
         name = name['first_name']+" "+name['last_name']
         accounts = home.getAccountsInfo(self.conn, self.userID)
-        # accounts = [("Savings", "903838203", 830323), ("Current Account (HKD)",
-        #                                                "3280223", 11000),
-        #             ("Current Account (USD)", "82324803", 12801.3)]
         transactions = getTransactionsInfo(self.conn, self.userID)
-        # transactions = [("Withdrawal", "2021-10-10 23:18:24", "123.83"),
-        #                 ("Withdrawal", "2021-10-10 23:18:24", "111.0"),
-        #                 ("Deposit", "2021-10-10 23:18:24", "10000.0"),
-        #                 ("Deposit", "2021-10-10 23:18:24", "2000.0")
-        #                 ]
         loginHistory = getLoginHistory(self.conn, self.userID)
-        # loginHistory = ["2021-10-09 19:20:19", "2021-10-09 19:20:19",
-        #                 "2021-10-09 19:20:19"]
 
         formattedAccounts = []
         for i in accounts:
@@ -132,7 +107,6 @@ class Session:
 
     def getProfileLayout(self):
         userInfo = db.getProfileInfo(self.conn, self.userID)
-        print(userInfo)
         name = userInfo['first_name']+" "+userInfo['last_name']
         dob = userInfo['date_of_birth'].strftime("%d/%m/%Y %H:%M:%S")
         address = userInfo['address']
@@ -146,11 +120,8 @@ class Session:
     def getAccountsLayout(self):
         currentInfo = db.getCurrentAccountInfo(self.conn, self.userID)
         savingInfo = db.getSavingsAccountInfo(self.conn, self.userID)
-        # print("---------------------")
-        # print(currentInfo, savingInfo)
         savingAccNum = savingInfo['account_number']
         currentAccNum = currentInfo['account_number']
-        # accNum = '1234567'
         overdraft = currentInfo['overdraft']
         intRate = savingInfo['interest_rate']
         currentBalance = currentInfo['balance']
@@ -158,26 +129,4 @@ class Session:
         status = 'Active'
         myAccountsTab = accounts1.accountsFrame(savingAccNum, currentAccNum,
                                                 overdraft, intRate, savingBalance, currentBalance, status)
-        # [[titleText('Accounts')]]
         return myAccountsTab
-
-    # def getTransactionLayout(self):
-    #     transactionsTab = [
-    #         [subTitleText('Account'), subTitleText(
-    #             'From'), subTitleText('Min. Amount')],
-    #         [comboElement(['Account 1', 'Account2'], '-account-'),
-    #          subTitleText('To'), subTitleText('Max. Amount')],
-    #         [buttonElement('Search', '-search-')]]
-
-    #     return transactionsTab
-
-    # def getProfileLayout(self):
-    #     profileTab = [[subTitleText('Name')]]
-    #     return profileTab
-
-    def signOut(self):
-        signOut = [[titleText('Sign Out Page')]]
-        # needs to end session and the take back to home screen
-
-        return signOut
-    ################################## Get From DB #########################################

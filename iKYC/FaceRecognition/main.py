@@ -13,7 +13,6 @@ def main():
     # 1 Create database connection
     try:
         myconn = db.connect()
-        print("database connection successful")
     except:
         print("connection unsuccessful")
 
@@ -58,13 +57,11 @@ def main():
             break
         if event == '-login-':
             # check the email, password verification
-            # db check
+
             ################## DB QUERY CHECK TO GET checkEmail ###############
 
             if values['-email-'] != "" and values['-password-'] != "":
 
-                ####################################
-                ############# DO NOT DELETE################
                 dbpw = db.getLoginInfo(myconn, values['-email-'])
                 userpw = hashlib.sha1(
                     values['-password-'].encode('utf-8')).hexdigest()
@@ -73,20 +70,14 @@ def main():
                 checkEmail = False
                 if dbpw[0] == userpw:
                     checkEmail = True
-                    print("passwords check")
                     customerID = db.getCustomerID(myconn, values['-email-'])
-                #######################################
                 if checkEmail:
-                    print("successful")
                     # folder name is based on email id so need to send email id
                     login_Success = loginWithFaceID.loginFaceID(
                         values['-email-'])
 
                     window.Close()
 
-                    # while True:
-                    #     event, values = win.Read()
-                    # win.Close()
                 else:
                     sg.Popup("Login Failed. Please retry.")
 
@@ -97,26 +88,18 @@ def main():
 
             signup.signup(myconn)
 
-            # window = sg.Window("Sign Up",)
-
     if login_Success:
-        # conn = db.connect()
-        conn = True
-        # userID = login_ID
         db.updateLoginHistory(myconn, customerID)
         session = Session(myconn, customerID)
-        # session.login()
 
         win = session.getMainWindow()
 
         while True:
             event, values = win.Read()
-            # win['-transactionTable-'].expand(True, True)
 
             if event is None or event == 'Cancel':
                 break
             if event == '-search-':
-                print("search pressed")
                 fromTime = datetime.strptime(
                     values['-fromDate-'] + " "+values['-fromTime-'], '%d/%m/%Y %H:%M:%S')
                 toTime = datetime.strptime(
@@ -161,14 +144,9 @@ def main():
             if event == '-transactionPageDetails-':
                 win.Element("-TRANSACTIONSTAB-").select()
                 currentAccount = db.getCurrentAccount(myconn, customerID)
-                print("---------")
-                print(currentAccount)
-                print("---------")
-                print(currentAccount['account_type'])
+
                 win['-account-'].update(currentAccount['account_type'])
                 transactions = db.filterByCurrTrans(myconn, customerID)
-                print(transactions)
-                print("\n")
                 updateTrans = transactionPage.getTableValues(transactions)
                 win.Element('-transactionTable-').Update(values=updateTrans)
 
@@ -176,12 +154,8 @@ def main():
                 win.Element("-TRANSACTIONSTAB-").select()
                 win['-account-'].update('Savings')
                 transactions = db.filterBySavingTrans(myconn, customerID)
-                print(transactions)
-                print("\n")
                 updateTrans = transactionPage.getTableValues(transactions)
                 win.Element('-transactionTable-').Update(values=updateTrans)
-                # win['-accountType-'].update(savingsAccount['account_type'] +
-                #                             " "+savingsAccount['account_number'])
 
             # currency convert button event
             if event == "Convert":
@@ -198,21 +172,10 @@ def main():
                                                     outputCurrency], 2)
                 win['-OUTPUTCURRENCYAMOUNT-'].update(fromUSDToOutputCurrency)
 
-            if event == '-search-':
-                print("TRANSACTION_SEARCH - values for queries")
-                print(values['-account-'], values['-fromAmount-'], values['-toAmount-'],
-                      values['-fromDate-'], values['-fromTime-'],
-                      values['-toDate-'], values['-toTime-'])
-
-            if event == '-search1-':
-                print("ACCOUNTS_SEARCH - values for queries")
-                print(values['-account1-'])
-
-            if event == sg.WIN_CLOSED or event == 'Sign Out':  # if user closes window or clicks cancel
+            if event == sg.WIN_CLOSED or event == 'Sign out':  # if user closes window or clicks cancel
                 break
 
         win.Close()
-        session.logout()
 
 
 main()

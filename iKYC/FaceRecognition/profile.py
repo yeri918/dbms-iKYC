@@ -9,13 +9,11 @@ def userInfo(name, dob, phoneNumber, email, address):
                      [sg.Text('Email Address: ' + email, font=("Lucida", 15))],
                      [sg.Text('Correspondence Address: ' +
                               address, font=("Lucida", 15))]
-
                      ]
     return welcomeLayout
 
 
 def tncPage():
-    # text1 = [[sg.Text("A Terms and Conditions agreement is the agreement that includes the terms, ",font=("Lucida", 13))]]
     text1 = [sg.Multiline("By using this Site, you agree to be bound by, and to comply with, these Terms and Conditions."
                           " If you do not agree to these Terms and Conditions, please do not use this site."
                           "THE USER UNDERSTANDS THAT ALL TRANSACTIONS AND TRANSFERS MADE ON THIS APPLICATION HOLD NO REAL MONETARY VALUE"
@@ -48,5 +46,5 @@ def frame1(name, dob, phoneNumber, email, address):
 def frameRight(name, dob, phoneNumber, email, address):
     layout = [[sg.Frame('', frame1(name, dob, phoneNumber, email, address), size=(700, 200))],
               [sg.Frame('', tncPage(), size=(700, 230))],
-              [sg.Button('Sign Out', font=("Lucida", 18), size=(90, 1))]]
+              [sg.Button('Sign Out', font=("Lucida", 18), size=(90, 1), key='Sign out')]]
     return layout

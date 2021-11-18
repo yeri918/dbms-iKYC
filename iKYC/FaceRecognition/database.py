@@ -12,7 +12,6 @@ def connect():
 def getLoginInfo(conn, email):
     mycursor = conn.cursor()
     query = 'SELECT password_ FROM Customer WHERE email="' + str(email) + '"'
-    print(query)
     mycursor.execute(query)
     return mycursor.fetchall()[0]
 
@@ -23,7 +22,6 @@ def getCustomerID(conn, email):
     # '''
     mycursor = conn.cursor()
     query = "SELECT customer_id FROM Customer WHERE email='" + str(email) + "'"
-    print(query)
     mycursor.execute(query)
 
     return mycursor.fetchone()[0]
@@ -77,33 +75,41 @@ def getLoginHistory(conn, customer_id):
 def addCustomerSignup(conn, email, password, lastname, givenname, birthdate,
                       address, phonenumber):
     mycursor = conn.cursor(dictionary=True)
-    query = "INSERT INTO Customer (first_name, last_name, email, password_, date_of_birth, address, phone_number) VALUES ('" +str(givenname)+"', '"+str(lastname)+"', '"+str(email)+"', SHA1('"+str(password)+"'), '"+str(birthdate)+"', '"+str(address)+"', '"+str(phonenumber)+"')"
+    query = "INSERT INTO Customer (first_name, last_name, email, password_, date_of_birth, address, phone_number) VALUES ('" + str(
+        givenname)+"', '"+str(lastname)+"', '"+str(email)+"', SHA1('"+str(password)+"'), '"+str(birthdate)+"', '"+str(address)+"', '"+str(phonenumber)+"')"
     mycursor.execute(query)
     conn.commit()
 
 
 def addIdentificationSignup(conn, customer_id,  addressproof, document):
     mycursor = conn.cursor(dictionary=True)
-    query = "INSERT INTO Identification (customer_id, upload_time, address_proof, identification_document) VALUES ('" +str(customer_id)+"', CURDATE(), %s, %s)"#+str(addressproof)+"', '"+str(document) + "')"
+    query = "INSERT INTO Identification (customer_id, upload_time, address_proof, identification_document) VALUES ('" + str(
+        customer_id)+"', CURDATE(), %s, %s)"  # +str(addressproof)+"', '"+str(document) + "')"
     print(query)
     mycursor.execute(query, (addressproof, document))
     conn.commit()
 
+
 def addSavingsAccountSignup(conn, customer_id, defaultInterestRate,
                             currentDate, currentDateAndTime):
     accountNumber = "00800-" + str(customer_id) + "000"
-    mycursor = conn.cursor(dictionary = True)
-    query1 = "INSERT INTO Account (account_number, customer_id, balance, date_opened, last_access, min_balance, account_status, account_type) VALUES ('"+str(accountNumber) +"', '"+str(customer_id) +"', '"+"0"+"', CURDATE(), NOW(), '"+ "1000"+"', '"+ "0"+"', '"+ 'Savings'+ "');"
-    query2 = "INSERT INTO SavingAccount (account_number, interest_rate) VALUES ('"+accountNumber+"', '"+ str(defaultInterestRate)+ "');"
+    mycursor = conn.cursor(dictionary=True)
+    query1 = "INSERT INTO Account (account_number, customer_id, balance, date_opened, last_access, min_balance, account_status, account_type) VALUES ('"+str(
+        accountNumber) + "', '"+str(customer_id) + "', '"+"0"+"', CURDATE(), NOW(), '" + "1000"+"', '" + "0"+"', '" + 'Savings' + "');"
+    query2 = "INSERT INTO SavingAccount (account_number, interest_rate) VALUES ('" + \
+        accountNumber+"', '" + str(defaultInterestRate) + "');"
     mycursor.execute(query1)
     mycursor.execute(query2)
     conn.commit()
 
+
 def addCurrentAccountSignup(conn, customer_id, currentDate, currentDateAndTime):
-    mycursor = conn.cursor(dictionary = True)
+    mycursor = conn.cursor(dictionary=True)
     accountNumber = "00800-" + str(customer_id) + "011"
-    query1 = "INSERT INTO Account (account_number, customer_id, balance, date_opened, last_access, min_balance, account_status, account_type) VALUES ('"+str(accountNumber)+"', '"+ str(customer_id) +"', '"+ "0"+"', '"+str(currentDate) +"', '"+ str(currentDateAndTime) +"', '"+"1000" +"', '"+ "0"+"', '"+ 'Current' + "');"
-    query2 = "INSERT INTO CurrentAccount (account_number, overdraft) VALUES ('"+accountNumber+"', '"+"0.0"+ "');"
+    query1 = "INSERT INTO Account (account_number, customer_id, balance, date_opened, last_access, min_balance, account_status, account_type) VALUES ('"+str(
+        accountNumber)+"', '" + str(customer_id) + "', '" + "0"+"', '"+str(currentDate) + "', '" + str(currentDateAndTime) + "', '"+"1000" + "', '" + "0"+"', '" + 'Current' + "');"
+    query2 = "INSERT INTO CurrentAccount (account_number, overdraft) VALUES ('" + \
+        accountNumber+"', '"+"0.0" + "');"
     mycursor.execute(query1)
     mycursor.execute(query2)
     conn.commit()
@@ -161,7 +167,6 @@ def getCustomerAccountList(conn, customer_id):
     mycursor = conn.cursor(dictionary=True)
     query = "SELECT account_type FROM Account WHERE customer_id = '" + \
             str(customer_id) + "'"
-    # print(query)
     mycursor.execute(query)
     return mycursor.fetchall()
 
@@ -171,7 +176,6 @@ def getTransactionHistory(conn, customer_id):
     query = "SELECT T.transaction_type, T.account_number, T.transaction_time, T.transaction_amount, T.transaction_description FROM Transaction_ T WHERE T.account_number IN (SELECT A.account_number FROM Account A WHERE customer_id = " + \
             str(customer_id) + ") LIMIT 10;"
     mycursor.execute(query)
-    # print(query)
     return mycursor.fetchall()
 
 
@@ -259,7 +263,6 @@ def getRecentPayee(conn, customer_id):
     mycursor = conn.cursor(dictionary=True)
     query = "SELECT T2.to_account, C.first_name, C.last_name FROM (SELECT Tr.to_account FROM Transfer_ Tr, Transaction_ T, Account A, Customer C WHERE Tr.transaction_id = T.transaction_id AND T.account_number = A.account_number AND A.customer_id = C.customer_id AND T.transaction_type = 'transfer' AND C.customer_id = '" + str(
         customer_id) + "') T2, Customer C, Account A WHERE C.customer_id = A.customer_id AND A.account_number = T2.to_account "
-    print(query)
     mycursor.execute(query)
     return mycursor.fetchall()
 

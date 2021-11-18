@@ -7,8 +7,6 @@ from datetime import datetime
 def getSearchFrame():
     l1 = ['Current Account', 'Savings Account']
     search = [[subTitleText('My Account Types: ', textSize=(20, 1), justify='left')],
-              # [subTitleText('* Current Account *')],
-              # [subTitleText('* Savings Account *')],
               [sg.Listbox(l1, font=('Lucida', 14), size=(70, 20))]
               ]
 
@@ -29,8 +27,6 @@ def currentgetinfo(accNum, overdraft, balance, status):
                [subTitleText2("")],
                [buttonElement2("View Transactions",
                                '-transactionPageDetails-', buttonSize=(50, 1))]
-               #    [sg.Text("More Details", font=("Lucida", 13, "underline"), justification='left', text_color="white", enable_events=True,
-               #             key="-transcationPageDetails-")]
                ]
 
     return layout1
@@ -60,9 +56,6 @@ def accountsFrame(savingAccNum, currentAccNum, overdraft, intRate, savingBalance
     test1 = [[titleText('Account 1'), subTitleText('subtext')]]
     searchFrame = [
         sg.Frame('Accounts', getSearchFrame(), font=("Lucida", 18), size=(650, 120))]
-    layout_column = [[sg.Button('Sign Out', font=("Lucida", 10), size=(5, 2))]
-                     ]
-    # [sg.Column(layout_column, element_justification='right', expand_x=True)],
     frame = [searchFrame,
              [titleText("Accounts", justify='center', textColor='Orange')],
              [sg.Frame('Current Account', currentgetinfo(currentAccNum, overdraft, currentBalance, status), font=("Lucida", 20), size=(340, 400)), sg.Frame(
